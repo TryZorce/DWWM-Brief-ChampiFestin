@@ -17,9 +17,15 @@ mv .env.dist .env
 ```
 Now you should edit the .env as you want (you should start by changing the database credentials).
 
-Then install the dependencies:
+Then install the dependencies for Symfony:
 ```
+cd symfony
 composer install
+```
+And for Next:
+```
+cd next
+npm install
 ```
 
 Finally, open 2 (two) terminals in the main folder and execute the following commands:
