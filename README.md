@@ -17,6 +17,11 @@ mv .env.dist .env
 ```
 Now you should edit the .env as you want (you should start by changing the database credentials).
 
+Then install the dependencies:
+```
+composer install
+```
+
 Finally, open 3 (three) terminals in the main folder and execute the following commands:
 
 ### Terminal 1
