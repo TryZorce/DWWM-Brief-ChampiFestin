@@ -1,0 +1,34 @@
+/* Style pour la SearchBar */
+.searchBar {
+    display: flex;
+    align-items: center;
+    width: 300px;
+    background-color: #ffffff;
+    border-radius: 4px;
+    padding: 8px;
+  }
+  
+  /* Style pour l'input de recherche */
+  .searchInput {
+    flex: 1;
+    border: none;
+    outline: none;
+    font-size: 14px;
+    padding: 8px;
+  }
+  
+  /* Style pour le bouton de recherche */
+  .searchButton {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 4px;
+  }
+  
+  /* Style pour l'icône de loupe */
+  .searchButton svg {
+    color: #888888;
+    font-size: 18px;
+  }
+  
