@@ -11,16 +11,6 @@ const inter = Inter({ subsets: ['latin'] })
 const Home = () => {
   const [data, setData] = useState([]);
   useEffect(() => {
-    // const getData = async () => {
-    //   try {
-    //     const response = await axios.get("http://127.0.0.1:8000/api/categories");
-    //     setData(response.data['hydra:member']);
-    //   }catch(err) {
-    //     console.log("Error trying to fetch API => " + err);
-    //   }
-    // }
-
-    // getData();
     const data = async () => {
       const d = await makeRequest({
         method: "get",
@@ -29,9 +19,7 @@ const Home = () => {
       });
       setData(d);
     }
-
     data();
-    
   }, [])
 
   return (
@@ -43,7 +31,7 @@ const Home = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={`${styles.main} ${inter.className}`}>
-        {
+        {data !== null &&
           data.map((d, index) => (
             <p key={index}>{d.name}</p>
           ))
