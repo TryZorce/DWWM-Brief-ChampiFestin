@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import style from './searchBar.module.css'
-// import { FaSearch } from 'react-icons/fa';
+import { FaSearch } from 'react-icons/fa';
 
 function SearchBar() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -20,7 +20,7 @@ function SearchBar() {
         className={style.searchInput}
       />
       <button className={style.searchButton} onClick={handleSearch}>
-        {/* <FaSearch /> */}
+        <FaSearch />
       </button>
     </div>
   );

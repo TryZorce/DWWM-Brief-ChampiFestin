@@ -1,5 +1,6 @@
 import style from '../styles/Home.module.css';
 import SearchBar from '../components/SearchBar'
+// import Carousel from '../components/Carousel'
 
 function Home() {
   return (
@@ -16,7 +17,10 @@ function Home() {
         </nav>
       </header>
       <div className={style.carousel}>
-        <h1>Caroussel</h1>
+        {/* <Carousel /> */}
+      </div>
+      <div className={style.slogan}>
+        <h1>Halluciner</h1>
       </div>
     </div>
   );
