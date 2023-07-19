@@ -6,6 +6,7 @@ use ApiPlatform\Metadata\ApiResource;
 use App\Repository\OrderRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: OrderRepository::class)]
@@ -21,10 +22,10 @@ class Order
     #[ORM\Column]
     private ?\DateTimeImmutable $created_at = null;
 
-    #[ORM\Column(nullable: true)]
+    #[ORM\Column(type: Types::FLOAT, nullable: true)]
     private ?float $price_promotion = null;
 
-    #[ORM\Column]
+    #[ORM\Column(type: Types::FLOAT)]
     private ?float $price = null;
 
     #[ORM\Column]
@@ -33,18 +34,26 @@ class Order
     #[ORM\Column]
     private ?float $HT = null;
 
-    #[ORM\OneToMany(mappedBy: 'command', targetEntity: User::class, orphanRemoval: true)]
-    private Collection $user;
+    #[ORM\Column(length: 255)]
+    private ?string $name = null;
 
-    #[ORM\ManyToOne(inversedBy: 'commands')]
+    #[ORM\Column(length: 255)]
+    private ?string $surname = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $email = null;
+
+    #[ORM\Column]
+    private ?int $phone = null;
+
+    #[ORM\ManyToOne(inversedBy: 'orders')]
     private ?Promotion $promotion = null;
 
-    #[ORM\ManyToMany(targetEntity: Product::class, inversedBy: 'commands')]
+    #[ORM\ManyToMany(targetEntity: Product::class, inversedBy: 'orders')]
     private Collection $product;
 
     public function __construct()
     {
-        $this->user = new ArrayCollection();
         $this->product = new ArrayCollection();
     }
 
@@ -113,32 +122,50 @@ class Order
         return $this;
     }
 
-    /**
-     * @return Collection<int, User>
-     */
-    public function getUser(): Collection
+    public function getName(): ?string
     {
-        return $this->user;
+        return $this->name;
     }
 
-    public function addUser(User $user): static
+    public function setName(string $name): static
     {
-        if (!$this->user->contains($user)) {
-            $this->user->add($user);
-            $user->setCommand($this);
-        }
+        $this->name = $name;
 
         return $this;
     }
 
-    public function removeUser(User $user): static
+    public function getSurname(): ?string
     {
-        if ($this->user->removeElement($user)) {
-            // set the owning side to null (unless already changed)
-            if ($user->getCommand() === $this) {
-                $user->setCommand(null);
-            }
-        }
+        return $this->surname;
+    }
+
+    public function setSurname(string $surname): static
+    {
+        $this->surname = $surname;
+
+        return $this;
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(string $email): static
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    public function getPhone(): ?int
+    {
+        return $this->phone;
+    }
+
+    public function setPhone(int $phone): static
+    {
+        $this->phone = $phone;
 
         return $this;
     }
