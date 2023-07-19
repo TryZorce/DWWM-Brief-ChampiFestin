@@ -69,7 +69,7 @@ class Category
         return $this->intensity;
     }
 
-    public function setIntensity(?int $intensity): static
+    public function setIntensity(int $intensity): static
     {
         $this->intensity = $intensity;
 

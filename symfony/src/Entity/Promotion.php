@@ -21,21 +21,21 @@ class Promotion
     #[ORM\Column(length: 255)]
     private ?string $title = null;
 
-    #[ORM\Column(length: 15)]
+    #[ORM\Column(length: 30)]
     private ?string $code = null;
 
-    #[ORM\Column(type: Types::SMALLINT)]
-    private ?int $value = null;
+    #[ORM\Column(type: Types::FLOAT)]
+    private ?float $value = null;
 
     #[ORM\Column]
     private ?bool $percentage = null;
 
     #[ORM\OneToMany(mappedBy: 'promotion', targetEntity: Order::class)]
-    private Collection $commands;
+    private Collection $orders;
 
     public function __construct()
     {
-        $this->commands = new ArrayCollection();
+        $this->orders = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -94,27 +94,27 @@ class Promotion
     /**
      * @return Collection<int, Order>
      */
-    public function getCommands(): Collection
+    public function getOrders(): Collection
     {
-        return $this->commands;
+        return $this->orders;
     }
 
-    public function addCommand(Order $command): static
+    public function addOrder(Order $order): static
     {
-        if (!$this->commands->contains($command)) {
-            $this->commands->add($command);
-            $command->setPromotion($this);
+        if (!$this->orders->contains($order)) {
+            $this->orders->add($order);
+            $order->setPromotion($this);
         }
 
         return $this;
     }
 
-    public function removeCommand(Order $command): static
+    public function removeOrder(Order $order): static
     {
-        if ($this->commands->removeElement($command)) {
+        if ($this->orders->removeElement($order)) {
             // set the owning side to null (unless already changed)
-            if ($command->getPromotion() === $this) {
-                $command->setPromotion(null);
+            if ($order->getPromotion() === $this) {
+                $order->setPromotion(null);
             }
         }
 
