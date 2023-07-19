@@ -10,29 +10,17 @@
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 }
 
-/* .slogan {
-  width: 489px;
-  height: 76px;
-  flex-shrink: 0;
-  text-align: center;
-  font-family: Rubik Puddles;
-  font-size: 64px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-  text-transform: uppercase;
-  background: linear-gradient(
-    45deg,
-    #f41414 0%,
-    rgba(244, 141, 20, 0.91) 9.38%,
-    rgba(172, 244, 20, 0.74) 25.52%,
-    rgba(44, 190, 20, 0.56) 43.75%,
-    rgba(20, 147, 140, 0.42) 57.81%,
-    rgba(81, 94, 113, 0.31) 69.27%,
-    rgba(147, 64, 75, 0.18) 81.77%,
-    rgba(244, 20, 20, 0) 100%
-  );
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-} */
+.imageContainer {
+  width: 100%;
+
+  /* > .div {
+    position: unset !important;
+  } */
+
+  > .image {
+    object-fit: contain;
+    width: 100% !important;
+    position: relative !important;
+    height: unset !important;
+  }
+}
