@@ -1,5 +1,5 @@
 import style from "../styles/Home.module.css";
-import SearchBar from "../components/SearchBar";
+import Navbar from "../components/Navbar"
 import { Carousel } from "primereact/carousel";
 import { Button } from "primereact/button";
 import Image from "next/image";
@@ -121,18 +121,8 @@ function Home() {
   }
 
   return (
-    <div className={style.App}>
-      <header className={style.header}>
-        <div className={style.logo}>
-          <h2>LOGO</h2>
-        </div>
-        <div className={style.searchbar}>
-          <SearchBar />
-        </div>
-        <nav className={style.navbar}>
-          <h1>NavBar</h1>
-        </nav>
-      </header>
+    <div>
+      <Navbar />
       <div className={style.slogan}>{/* <h1>Halluciner</h1> */}</div>
       <div className={style.carousel}>
         <Carousel
