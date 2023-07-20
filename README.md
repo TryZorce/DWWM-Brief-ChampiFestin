@@ -17,12 +17,18 @@ mv .env.dist .env
 ```
 Now you should edit the .env as you want (you should start by changing the database credentials).
 
-Then install the dependencies:
+Then install the dependencies for Symfony:
 ```
+cd symfony
 composer install
 ```
+And for Next:
+```
+cd next
+npm install
+```
 
-Finally, open 3 (three) terminals in the main folder and execute the following commands:
+Finally, open 2 (two) terminals in the main folder and execute the following commands:
 
 ### Terminal 1
 ```
@@ -31,12 +37,6 @@ symfony serve
 ```
 
 ### Terminal 2
-```
-cd symfony
-npm run watch
-```
-
-### Terminal 3
 If you are not in production:
 ```
 cd next
