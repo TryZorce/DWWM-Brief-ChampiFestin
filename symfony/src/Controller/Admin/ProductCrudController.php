@@ -11,8 +11,8 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
 class ProductCrudController extends AbstractCrudController
@@ -22,7 +22,7 @@ class ProductCrudController extends AbstractCrudController
         return Product::class;
     }
 
-    
+
     public function configureFields(string $pageName): iterable
     {
         return [
@@ -31,15 +31,15 @@ class ProductCrudController extends AbstractCrudController
             NumberField::new('price'),
             NumberField::new('stock'),
             BooleanField::new('available'),
-            TextField::new('image'),
+            ImageField::new('image'),
             AssociationField::new('category')->onlyOnForms(),
             ArrayField::new('category')->onlyOnIndex()
             // TextEditorField::new('description'),
         ];
     }
 
-    public function configureActions(Actions $actions): Actions {
+    public function configureActions(Actions $actions): Actions
+    {
         return $actions->add(Crud::PAGE_INDEX, Action::DETAIL);
     }
-    
 }
