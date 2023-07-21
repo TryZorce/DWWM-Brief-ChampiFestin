@@ -21,7 +21,7 @@ class ProductFixtures extends Fixture
             $product->setPrice($faker->numberBetween(50, 500));
             $product->setStock($faker->numberBetween(0, 100));
             $product->setImage($faker->imageUrl());
-
+            $product->setAvailable(true);
             // Associer une catégorie aléatoire au produit
             $randomCategory = $faker->randomElement($categories);
             $product->addCategory($randomCategory);
