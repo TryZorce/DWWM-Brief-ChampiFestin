@@ -21,7 +21,6 @@ class OrderFixtures extends Fixture implements DependentFixtureInterface
 
         for ($i = 0; $i < 20; $i++) {
             $order = new Order();
-            $order->setCreatedAt(\DateTimeImmutable::createFromMutable($faker->dateTimeThisDecade()));
             $order->setPricePromotion($faker->numberBetween(50, 500));
             $order->setPrice($faker->randomFloat(2, 100, 1000));
             $order->setTVA($faker->randomFloat(2, 5, 25));

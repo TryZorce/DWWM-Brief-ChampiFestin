@@ -3,40 +3,58 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
 use App\Repository\ProductRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    operations: [
+        new GetCollection(
+            normalizationContext: ['groups' => ['products_read']]
+        ),
+        new Get(
+            normalizationContext: ['groups' => ['product_read']]
+        )
+    ]
+)]
 class Product
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['products_read', 'product_read', 'orders_read', 'order_read', 'order_write'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['products_read', 'product_read', 'orders_read', 'order_read'])]
     private ?string $name = null;
 
     #[ORM\Column(type: Types::FLOAT)]
+    #[Groups(['products_read', 'product_read', 'orders_read', 'order_read'])]
     private ?float $price = null;
 
     #[ORM\Column]
+    #[Groups(['products_read', 'product_read', 'order_write'])]
     private ?int $stock = null;
-
     #[ORM\Column(length: 255,nullable: true)]
+    #[Groups(['products_read', 'product_read'])]
     private ?string $image = null;
 
     #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'products')]
+    #[Groups(['products_read', 'product_read', 'orders_read', 'order_read'])]
     private Collection $category;
 
-    #[ORM\ManyToMany(targetEntity: Order::class, mappedBy: 'product')]
+    #[ORM\ManyToMany(targetEntity: Order::class, mappedBy: 'product', cascade: ['persist'])]
     private Collection $orders;
 
     #[ORM\Column]
+    #[Groups(['products_read', 'product_read', 'order_write'])]
     private ?bool $available = null;
 
     public function __construct()
