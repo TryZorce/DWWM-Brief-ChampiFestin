@@ -21,7 +21,9 @@ Then install the dependencies for Symfony:
 ```
 cd symfony
 composer install
+composer require easycorp/easyadmin-bundle
 ```
+
 And for Next:
 ```
 cd next
