@@ -1,9 +1,15 @@
+// pages/index.jsx
 import style from "../styles/Home.module.css";
 import Navbar from "../components/Navbar";
 import { Carousel } from "primereact/carousel";
 import { Button } from "primereact/button";
 import Image from "next/image";
+import { SetStateAction, useState } from "react";
+import ProductDetails from "../components/ProductDetails";
+
 function Home() {
+  const [selectedProduct, setSelectedProduct] = useState(null);
+
   const responsiveOptions = [
     {
       breakpoint: "1199px",
@@ -21,27 +27,33 @@ function Home() {
       numScroll: 1,
     },
   ];
-  function productTemplate(product) {
+
+  function handleProductClick(product: SetStateAction<null>) {
+    setSelectedProduct(product);
+  }
+
+  function productTemplate(product: SetStateAction<null>) {
     return (
-      <div className={style.product}>
-        <div
-          className={`p-2 m-8 border-round-xl shadow-1 bg-bluegray-900 ${style.content}`}
-        >
+      <div
+        className={`${style.product} m-5 bg-bluegray-900 shadow-1 border-round-xl`}
+        onClick={() => handleProductClick(product)}
+      >
+        <div className={`p-2 m-4 bg-bluegray-900 ${style.content}`}>
           <div
             className={`content-image bg-cover bg-no-repeat bg-center relative ${style.contentImage}`}
           >
             <div className={style.imageContainer}>
-            <Image
-              src="/media/Leonardo_Diffusion_Hyper_realistic_of_hallucinogenic_mushrooms_0.jpg"
-              alt=""
-              fill={true}
-              objectPosition="relative"
-              className={style.image}
-            />
+              <Image
+                src="/media/Leonardo_Diffusion_Hyper_realistic_of_hallucinogenic_mushrooms_0.jpg"
+                alt=""
+                fill={true}
+                objectPosition="relative"
+                className={`${style.image} border-round-xl shadow-1`}
+              />
             </div>
           </div>
           <div
-            className={`rating mt-2 absolute border-round-sm ml-2 p-2 bg-gray-800	flex align-items-center gap-2 w-8rem ${style.rating}`}
+            className={`rating mt-1 absolute border-round-sm ml-1 p-2 bg-gray-800	flex align-items-center gap-2 w-8rem ${style.rating}`}
           >
             <i className="pi pi-star-fill text-yellow-400"></i>
             <i className="pi pi-star-fill text-yellow-400"></i>
@@ -54,7 +66,7 @@ function Home() {
           <div
             className={`flex align-items-center justify-content-between py-2 px-3 ${style.infoHeader}`}
           >
-            <span className="font-medium text-gray-600">Night Mushroom</span>
+            <span className="font-semibold text-gray-400">Night Mushroom</span>
             <i className="pi pi-verified text-green-400"></i>
           </div>
           <div
@@ -101,7 +113,7 @@ function Home() {
             <button
               className={`p-3 flex align-items-center justify-content-center w-7 gap-2 bg-purple-700 shadow-1 border-none cursor-pointer hover:bg-black-alpha-20 transition-duration-200 ${style.contactButton}`}
             >
-              <span className="font-medium text-gray-300 white-space-nowrap">
+              <span className="font-semibold text-gray-300 white-space-nowrap">
                 Add To Cart
               </span>
               <i className="pi pi-send text-gray-300"></i>
@@ -109,7 +121,7 @@ function Home() {
             <button
               className={`p-3 flex align-items-center justify-content-center w-5 gap-2 bg-gray-900 shadow-1 border-none cursor-pointer hover:bg-gray-800 transition-duration-200 ${style.rateButton}`}
             >
-              <span className="font-medium text-white white-space-nowrap">
+              <span className="font-semibold text-white white-space-nowrap">
                 Rate
               </span>
               <i className="pi pi-thumbs-up-fill text-white"></i>
@@ -123,7 +135,26 @@ function Home() {
   return (
     <div>
       <Navbar />
+
+      <div className="bg-bluegray-600 text-gray-100 p-3 mt-6 flex justify-content-between lg:justify-content-center align-items-center flex-wrap">
+        <div className="font-bold mr-8">🔥 Hot Deals!</div>
+        <div className="align-items-center hidden lg:flex">
+          <span className="line-height-3 font-bold">
+            GET 10% WITH THE CODE : PSYLO10 !!! 
+          </span>
+        </div>
+        <a className="flex align-items-center ml-2 mr-8">
+          <span className="underline font-medium">Learn More</span>
+        </a>
+        <a
+          className="flex align-items-center no-underline justify-content-center border-circle text-100 hover:bg-bluegray-700 cursor-pointer transition-colors transition-duration-150"
+          style={{ width: "2rem", height: "2rem" }}
+        >
+          <i className="pi pi-times"></i>
+        </a>
+      </div>
       <div className={style.slogan}>{/* <h1>Halluciner</h1> */}</div>
+      {selectedProduct && <ProductDetails product={selectedProduct} />}
       <div className={style.carousel}>
         <Carousel
           value={["A", "B", "C", "D", "E", "F", "G", "H", "I"]}
@@ -140,4 +171,5 @@ function Home() {
     </div>
   );
 }
+
 export default Home;
