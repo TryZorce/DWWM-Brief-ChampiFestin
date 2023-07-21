@@ -1,5 +1,5 @@
 import style from "../styles/Home.module.css";
-import Navbar from "../components/Navbar"
+import Navbar from "../components/Navbar";
 import { Carousel } from "primereact/carousel";
 import { Button } from "primereact/button";
 import Image from "next/image";

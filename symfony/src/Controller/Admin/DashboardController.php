@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\Category;
 use App\Entity\Product;
+use App\Entity\Promotion;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
@@ -56,6 +57,13 @@ class DashboardController extends AbstractDashboardController
             MenuItem::linkToCrud('Ajouter', 'fas fa-list', Product::class)
             ->setAction('new')
         ]);
+
+        yield MenuItem::subMenu("Promotion")->setSubItems([
+            MenuItem::linkToCrud('List', 'fas fa-list', Promotion::class),
+            MenuItem::linkToCrud('Ajouter', 'fas fa-list', Promotion::class)
+            ->setAction('new')
+        ]);
+        
         
     }
 }
