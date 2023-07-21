@@ -5,6 +5,7 @@ namespace App\Controller\Admin;
 use App\Entity\Category;
 use App\Entity\Product;
 use App\Entity\Promotion;
+use App\Entity\Order;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
@@ -65,5 +66,10 @@ class DashboardController extends AbstractDashboardController
         ]);
         
         
+        yield MenuItem::subMenu("Orders")->setSubItems([
+            MenuItem::linkToCrud('List', 'fas fa-list', Order::class),
+            MenuItem::linkToCrud('Ajouter', 'fas fa-list', Order::class)
+            ->setAction('new')
+        ]);
     }
 }
