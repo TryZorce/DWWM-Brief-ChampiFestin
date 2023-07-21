@@ -14,6 +14,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class ProductCrudController extends AbstractCrudController
 {
@@ -31,10 +32,12 @@ class ProductCrudController extends AbstractCrudController
             NumberField::new('price'),
             NumberField::new('stock'),
             BooleanField::new('available'),
-            ImageField::new('image'),
             AssociationField::new('category')->onlyOnForms(),
-            ArrayField::new('category')->onlyOnIndex()
-            // TextEditorField::new('description'),
+            ArrayField::new('category')->onlyOnIndex(),
+            ImageField::new('image', 'Image')
+                ->setBasePath('/uploads/images')
+                ->setUploadDir('public/uploads/images')
+                ->setUploadedFileNamePattern('[name].[extension]')
         ];
     }
 
@@ -42,4 +45,6 @@ class ProductCrudController extends AbstractCrudController
     {
         return $actions->add(Crud::PAGE_INDEX, Action::DETAIL);
     }
+
+
 }

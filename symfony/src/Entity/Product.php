@@ -42,8 +42,7 @@ class Product
     #[ORM\Column]
     #[Groups(['products_read', 'product_read', 'order_write'])]
     private ?int $stock = null;
-
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255,nullable: true)]
     #[Groups(['products_read', 'product_read'])]
     private ?string $image = null;
 
