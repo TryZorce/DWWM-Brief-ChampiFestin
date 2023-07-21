@@ -15,12 +15,12 @@ class ProductFixtures extends Fixture
     {
         $this->kernel = $kernel;
     }
-    
+
     public function load(ObjectManager $manager)
     {
         $faker = \Faker\Factory::create();
 
-        
+
         $images = [
             '/Mushroom1.jpg',
             '/Mushroom2.jpg',
