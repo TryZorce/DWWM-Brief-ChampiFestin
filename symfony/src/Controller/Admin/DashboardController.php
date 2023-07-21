@@ -71,5 +71,6 @@ class DashboardController extends AbstractDashboardController
             MenuItem::linkToCrud('Ajouter', 'fas fa-list', Order::class)
             ->setAction('new')
         ]);
+        
     }
 }

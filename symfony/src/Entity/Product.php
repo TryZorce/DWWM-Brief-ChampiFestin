@@ -27,7 +27,7 @@ class Product
     #[ORM\Column]
     private ?int $stock = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255,nullable: true)]
     private ?string $image = null;
 
     #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'products')]
