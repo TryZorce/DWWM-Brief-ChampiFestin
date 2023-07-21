@@ -16,6 +16,8 @@
     outline: none;
     font-size: 14px;
     padding: 8px;
+    background-color: #ffffff;
+    color: black;
   }
   
   /* Style pour le bouton de recherche */

@@ -4,7 +4,7 @@ import 'primeicons/primeicons.css'
 import '/node_modules/primeflex/primeflex.css'
 
 //theme
-import "primereact/resources/themes/lara-light-indigo/theme.css";     
+import "primereact/resources/themes/md-dark-deeppurple/theme.css";     
     
 //core
 import "primereact/resources/primereact.min.css";                                       
