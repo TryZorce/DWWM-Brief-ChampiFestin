@@ -36,6 +36,9 @@ class Product
     #[ORM\ManyToMany(targetEntity: Order::class, mappedBy: 'product')]
     private Collection $orders;
 
+    #[ORM\Column]
+    private ?bool $available = null;
+
     public function __construct()
     {
         $this->category = new ArrayCollection();
@@ -146,6 +149,18 @@ class Product
         if ($this->orders->removeElement($order)) {
             $order->removeProduct($this);
         }
+
+        return $this;
+    }
+
+    public function isAvailable(): ?bool
+    {
+        return $this->available;
+    }
+
+    public function setAvailable(bool $available): static
+    {
+        $this->available = $available;
 
         return $this;
     }

@@ -27,6 +27,7 @@ class OrderCrudController extends AbstractCrudController
             TextField::new('email'),
             NumberField::new('phone'),
             DateTimeField::new('created_at'),
+            NumberField::new('price'),
             NumberField::new('price_promotion'),
             NumberField::new('tva'),
             NumberField::new('ht'),
