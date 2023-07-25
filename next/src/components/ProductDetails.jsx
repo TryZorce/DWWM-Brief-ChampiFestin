@@ -6,7 +6,7 @@ import style from "../components/productDetail.module.css";
 
 function ProductDetails({ product }) {
   return (
-    <Panel header="Détails du produit" className={style.productDetails}>
+    <Panel header="Product Details" className={style.productDetails}>
       <div className={style.productImage}>
         {/* Afficher l'image du produit */}
         <img src={product.image} alt={product.name} />
@@ -17,10 +17,10 @@ function ProductDetails({ product }) {
         <p className={style.productDescription}>{product.description}</p>
         <div className={style.productPrice}>
           {/* Afficher le prix du produit */}
-          <span className={style.priceLabel}>Prix :</span>
+          <span className={style.priceLabel}>Price :</span>
           <span className={style.priceValue}>{product.price} €</span>
         </div>
-        <Button label="Ajouter au panier" className={style.addToCartButton} />
+        <Button label="Add to Cart" className={style.addToCartButton} />
       </div>
     </Panel>
   );
