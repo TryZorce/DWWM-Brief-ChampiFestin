@@ -11,5 +11,5 @@
   }
 
   .backgroundRGB {
-    animation: backgroundTransition 5s linear infinite; /* Ajustez la durée ou la vitesse de la transition selon vos préférences */
+    animation: backgroundTransition 3s linear infinite; 
   }
