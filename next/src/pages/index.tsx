@@ -1,6 +1,6 @@
-// pages/index.jsx
 import style from "../styles/Home.module.css";
 import Navbar from "../components/Navbar";
+import Cart from "../components/Cart";
 import { Carousel } from "primereact/carousel";
 import { Button } from "primereact/button";
 import Image from "next/image";
@@ -136,7 +136,7 @@ function Home() {
     <div>
       <Navbar />
 
-      <div className="bg-bluegray-600 text-gray-100 p-3 mt-6 flex justify-content-between lg:justify-content-center align-items-center flex-wrap">
+      <div className="bg-bluegray-600 text-gray-100 p-3 mt-4 mb-4 flex justify-content-between lg:justify-content-center align-items-center flex-wrap">
         <div className="font-bold mr-8">🔥 Hot Deals!</div>
         <div className="align-items-center hidden lg:flex">
           <span className="line-height-3 font-bold">
@@ -168,6 +168,7 @@ function Home() {
       <div className="card flex justify-content-center">
         <Button label="Check" icon="pi pi-check" />
       </div>
+      {/* <Cart /> */}
     </div>
   );
 }
