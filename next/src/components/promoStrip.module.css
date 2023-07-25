@@ -13,18 +13,3 @@
   .backgroundRGB {
     animation: backgroundTransition 5s linear infinite; /* Ajustez la durée ou la vitesse de la transition selon vos préférences */
   }
-
-/* 
-
-@keyframes scrollText {
-    0% {
-      transform: translateX(-70%);
-    }
-    100% {
-      transform: translateX(70%);
-    }
-  }
-
-  .scrollingContainer {
-    animation: scrollText 30s linear infinite; 
-  } */

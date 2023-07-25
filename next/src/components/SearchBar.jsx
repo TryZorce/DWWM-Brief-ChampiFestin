@@ -8,6 +8,9 @@ function SearchBar() {
   const handleSearch = () => {
     // Effectuer l'action de recherche avec la valeur de searchQuery
     console.log('Recherche:', searchQuery);
+    if(searchQuery === "wtf") {
+      
+    }
   };
 
   return (
