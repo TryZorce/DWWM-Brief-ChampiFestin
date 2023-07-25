@@ -71,6 +71,9 @@ class DashboardController extends AbstractDashboardController
             MenuItem::linkToCrud('Ajouter', 'fas fa-list', Order::class)
             ->setAction('new')
         ]);
-        
+        yield MenuItem::linkToUrl('Symfony', 'fa-solid fa-house', '/');
+        yield MenuItem::linkToUrl('Accueil', 'fa-solid fa-house', 'http://localhost:3000/');
+        yield MenuItem::linkToUrl('Github', 'fab fa-github', 'https://github.com/TryZorce/ChampiFestin');
+        yield MenuItem::linkToUrl('YouTube', 'fab fa-youtube', 'https://www.youtube.com/watch?v=Y9Zw6xOGly0&ab_channel=NEFOS');
     }
 }
