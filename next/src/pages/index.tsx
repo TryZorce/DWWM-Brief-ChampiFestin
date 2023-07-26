@@ -19,7 +19,8 @@ function Home() {
       url: "http://localhost:8000/api/products",
       data: "",
     }).then((data) => {
-      setProducts(data);
+      const availableProducts = data.filter((product) => product.available);
+      setProducts(availableProducts);
     });
   }, []);
 
