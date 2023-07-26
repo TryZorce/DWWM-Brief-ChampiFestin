@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Panel } from "primereact/panel";
 import { Rating } from "primereact/rating";
 import { Button } from "primereact/button";
-import { useState } from "react";
 import style from "../components/productDetail.module.css";
 
 function ProductDetails({ product }) {
