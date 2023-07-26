@@ -7,6 +7,7 @@ import { Button } from "primereact/button";
 import Image from "next/image";
 import { SetStateAction, useState } from "react";
 import ProductDetails from "../components/ProductDetails";
+
 import makeRequest from "@/utils/Fetcher";
 import { useEffect } from "react";
 
