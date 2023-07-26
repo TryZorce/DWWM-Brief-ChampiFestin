@@ -1,14 +1,18 @@
-import React, { useState } from "react";
 import { Panel } from "primereact/panel";
 import { Rating } from "primereact/rating";
 import { Button } from "primereact/button";
+import { useState } from "react";
 import style from "../components/productDetail.module.css";
 
-function ProductDetails({ product }) {
+function ProductDetails({ product, onAddToCart }) {
   const [ratingValue, setRatingValue] = useState(product.rating);
 
   const handleChange = (e) => {
     setRatingValue(e.value);
+  };
+
+  const handleAddToCart = () => {
+    onAddToCart(product);
   };
 
   return (
@@ -40,7 +44,11 @@ function ProductDetails({ product }) {
             </span>
           ))}
         </div>
-        <Button label="Add to Cart" className={style.addToCartButton} />
+        <Button
+          label="Add to Cart"
+          className={style.addToCartButton}
+          onClick={handleAddToCart}
+        />
       </div>
     </Panel>
   );

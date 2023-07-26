@@ -6,7 +6,6 @@ import { Button } from "primereact/button";
 import Image from "next/image";
 import { SetStateAction, useState } from "react";
 import ProductDetails from "../components/ProductDetails";
-
 import makeRequest from "@/utils/Fetcher";
 import { useEffect } from "react";
 
@@ -14,7 +13,7 @@ function Home() {
   const [selectedProduct, setSelectedProduct] = useState(null);
 
   const [Product, setProduct] = useState([]);
-  
+
   useEffect(() => {
     makeRequest({
       method: "get",
@@ -24,7 +23,7 @@ function Home() {
       setProduct(data);
       // console.log(data)
     });
-  }, []); 
+  }, []);
 
   const responsiveOptions = [
     {
@@ -121,6 +120,9 @@ function Home() {
               <span className="font-small text-gray-600 white-space-nowrap">
                 Sleepy
               </span>
+            </div>
+            <div className="bg-purple-400 shadow-2 border-none p-2 border-round-xs">
+              <span className="font-bold">{product.price} €</span>
             </div>
           </div>
           <div
