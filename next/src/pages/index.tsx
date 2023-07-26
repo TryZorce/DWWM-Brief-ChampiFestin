@@ -4,15 +4,19 @@ import PromoStrip from "../components/PromoStrip";
 import { Carousel } from "primereact/carousel";
 import { Button } from "primereact/button";
 import Image from "next/image";
-import { SetStateAction, useState } from "react";
+import { SetStateAction, useState, useEffect } from "react";
 import ProductDetails from "../components/ProductDetails";
 import makeRequest from "@/utils/Fetcher";
-import { useEffect } from "react";
 
 function Home() {
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const [products, setProducts] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState(null);
+
+
 
   const [Product, setProduct] = useState([]);
+
 
   useEffect(() => {
     makeRequest({
@@ -20,8 +24,8 @@ function Home() {
       url: "http://localhost:8000/api/products",
       data: "",
     }).then((data) => {
-      setProduct(data);
-      // console.log(data)
+      const availableProducts = data.filter((product) => product.available);
+      setProducts(availableProducts);
     });
   }, []);
 
@@ -43,11 +47,19 @@ function Home() {
     },
   ];
 
-  function handleProductClick(product: SetStateAction<null>) {
+  function handleProductClick(product: any) {
     setSelectedProduct(product);
   }
 
-  function productTemplate(product: SetStateAction<null>) {
+  function handleCategoryFilter(category: any) {
+    if (category.name === "Tous les produits") {
+      setSelectedCategory(null);
+    } else {
+      setSelectedCategory(category);
+    }
+  }
+
+  function productTemplate(product: any) {
     return (
       <div
         className={`${style.product} m-5 bg-bluegray-900 shadow-1 border-round-xl`}
@@ -150,25 +162,58 @@ function Home() {
     );
   }
 
+  const filteredProducts = selectedCategory
+    ? products.filter((product) =>
+      product.category.some((cat: { name: any; }) => cat.name === selectedCategory.name)
+    )
+    : products;
+
+  const categories = [
+    { id: 0, name: "Tous les produits" }, 
+
+    // id 0 = Option spéciale pour voir tous les produits si changer , modifier function handleCategoryFilter
+
+    { id: 1, name: "non" },
+    { id: 2, name: "molestias" },
+    { id: 3, name: "Category 3" },
+  ];
+
   return (
     <div>
       <Navbar />
       <PromoStrip />
       <div className={style.slogan}>{/* <h1>Halluciner</h1> */}</div>
       {selectedProduct && <ProductDetails product={selectedProduct} />}
+      <div>
+        <ul className={style.categoryContainer}>
+          {categories.map((category) => (
+            <li
+              key={category.id}
+              onClick={() => handleCategoryFilter(category)}
+              className={`${style.categoryItem} ${
+                selectedCategory && selectedCategory.id === category.id
+                  ? "active"
+                  : ""
+              }`}
+            >
+              {category.name}
+            </li>
+          ))}
+        </ul>
+      </div>
       <div className={style.carousel}>
         <Carousel
-          value={Product}
+          value={filteredProducts}
           numVisible={4}
           numScroll={3}
           itemTemplate={productTemplate}
           className={style.carouselContainer}
           responsiveOptions={responsiveOptions}
+          prevIcon={<i className="pi pi-chevron-left"></i>}
+          nextIcon={<i className="pi pi-chevron-right"></i>}
         />
+
       </div>
-      {/* <div className="card flex justify-content-center">
-        <Button label="Check" icon="pi pi-check" />
-      </div> */}
     </div>
   );
 }
