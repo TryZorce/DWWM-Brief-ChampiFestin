@@ -1,19 +1,22 @@
-import React, { useState } from "react";
 import { Panel } from "primereact/panel";
 import { Rating } from "primereact/rating";
 import { Button } from "primereact/button";
 import { useState } from "react";
 import style from "../components/productDetail.module.css";
 
-function ProductDetails({ product }) {
+function ProductDetails({ product, onAddToCart }) {
   const [ratingValue, setRatingValue] = useState(product.rating);
 
   const handleChange = (e) => {
     setRatingValue(e.value);
   };
 
+  const handleAddToCart = () => {
+    onAddToCart(product);
+  };
+
   return (
-    <Panel header="Product Details" className={style.productDetails}>
+    <Panel header={product.name} className={`${style.productDetails} ${style.holographicEffect}`}>
       <div className={style.productImage}>
         <img
           src={"http://localhost:8000/uploads/images" + product.image}
@@ -30,6 +33,7 @@ function ProductDetails({ product }) {
         />
         <p className={style.productDescription}>{product.description}</p>
         <div className={style.productPrice}>
+          <i className="pi pi-tag"></i>
           <span className={style.priceLabel}>Price:</span>
           <span className={style.priceValue}>{product.price} €</span>
         </div>
@@ -41,7 +45,11 @@ function ProductDetails({ product }) {
             </span>
           ))}
         </div>
-        <Button label="Add to Cart" className={style.addToCartButton} />
+        <Button
+          label="Add to Cart"
+          className={style.addToCartButton}
+          onClick={handleAddToCart}
+        />
       </div>
     </Panel>
   );
