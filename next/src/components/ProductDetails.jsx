@@ -14,7 +14,7 @@ function ProductDetails({ product }) {
       <div className={style.productInfo}>
         <h1 className={style.productName}>{product.name}</h1>
         <Rating value={product.rating} onChange={(e) => setValue(e.value)} stars={5} cancel={false} />
-        <p className={style.productDescription}>{product.description}</p>
+        <p className={style.productDescription}>{}</p>
         <div className={style.productPrice}>
           {/* Afficher le prix du produit */}
           <span className={style.priceLabel}>Price :</span>
