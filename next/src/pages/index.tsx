@@ -14,9 +14,6 @@ function Home() {
 
 
 
-  const [Product, setProduct] = useState([]);
-
-
   useEffect(() => {
     makeRequest({
       method: "get",

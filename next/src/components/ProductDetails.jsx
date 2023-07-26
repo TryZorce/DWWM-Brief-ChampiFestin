@@ -1,5 +1,6 @@
 import { Panel } from "primereact/panel";
 import { Rating } from "primereact/rating";
+import { useState } from "react";
 import { Button } from "primereact/button";
 import style from "../components/productDetail.module.css";
 
