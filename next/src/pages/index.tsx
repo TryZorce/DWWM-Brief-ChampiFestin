@@ -13,6 +13,11 @@ function Home() {
   const [products, setProducts] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
 
+
+
+  const [Product, setProduct] = useState([]);
+
+
   useEffect(() => {
     makeRequest({
       method: "get",
@@ -127,6 +132,9 @@ function Home() {
               <span className="font-small text-gray-600 white-space-nowrap">
                 Sleepy
               </span>
+            </div>
+            <div className="bg-purple-400 shadow-2 border-none p-2 border-round-xs">
+              <span className="font-bold">{product.price} €</span>
             </div>
           </div>
           <div
