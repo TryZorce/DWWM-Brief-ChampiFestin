@@ -9,7 +9,7 @@ function ProductDetails({ product }) {
     <Panel header="Product Details" className={style.productDetails}>
       <div className={style.productImage}>
         {/* Afficher l'image du produit */}
-        <img src={product.image} alt={product.name} />
+        <img src={"http://localhost:8000/uploads/images" + product.image} alt={product.name} />
       </div>
       <div className={style.productInfo}>
         <h1 className={style.productName}>{product.name}</h1>

@@ -7,9 +7,24 @@ import { Button } from "primereact/button";
 import Image from "next/image";
 import { SetStateAction, useState } from "react";
 import ProductDetails from "../components/ProductDetails";
+import makeRequest from "@/utils/Fetcher";
+import { useEffect } from "react";
 
 function Home() {
   const [selectedProduct, setSelectedProduct] = useState(null);
+
+  const [Product, setProduct] = useState([]);
+  
+  useEffect(() => {
+    makeRequest({
+      method: "get",
+      url: "http://localhost:8000/api/products",
+      data: "",
+    }).then((data) => {
+      setProduct(data);
+      // console.log(data)
+    });
+  }, []); 
 
   const responsiveOptions = [
     {
@@ -45,7 +60,7 @@ function Home() {
           >
             <div className={style.imageContainer}>
               <Image
-                src="/media/Leonardo_Diffusion_Hyper_realistic_of_hallucinogenic_mushrooms_0.jpg"
+                src={"http://localhost:8000/uploads/images" + product.image}
                 alt=""
                 fill={true}
                 objectPosition="relative"
@@ -141,7 +156,7 @@ function Home() {
       {selectedProduct && <ProductDetails product={selectedProduct} />}
       <div className={style.carousel}>
         <Carousel
-          value={["A", "B", "C", "D", "E", "F", "G", "H", "I"]}
+          value={Product}
           numVisible={4}
           numScroll={3}
           itemTemplate={productTemplate}
