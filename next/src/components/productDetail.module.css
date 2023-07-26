@@ -13,7 +13,7 @@
 
 .productImage img {
   width: 100%;
-  max-height: 300px;
+  max-height: 500px;
   object-fit: cover;
   border-radius: 5px;
   margin-bottom: 20px;
@@ -38,6 +38,27 @@
 
 .priceLabel {
   margin-right: 5px;
+}
+
+/* Style pour la catégorie */
+.productCategories {
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.categoryLabel {
+  font-weight: bold;
+  margin-right: 5px;
+}
+
+.category {
+  display: inline-block;
+  background-color: #8e67cc;
+  color: #fff;
+  margin-top: 10px;
+  padding: 5px 10px;
+  margin-right: 5px;
+  border-radius: 3px;
 }
 
 .addToCartButton {
