@@ -158,6 +158,6 @@
 
 /* Appliquer l'animation à l'élément au survol */
 .holographicEffect:hover {
-  animation: holographic-animation 1s ease-in-out;
+  animation: holographic-animation 0.5s ease-in-out;
 }
 
