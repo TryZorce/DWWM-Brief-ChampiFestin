@@ -16,7 +16,7 @@ function ProductDetails({ product, onAddToCart }) {
   };
 
   return (
-    <Panel header="Product Details" className={style.productDetails}>
+    <Panel header={product.name} className={`${style.productDetails} ${style.holographicEffect}`}>
       <div className={style.productImage}>
         <img
           src={"http://localhost:8000/uploads/images" + product.image}
@@ -33,6 +33,7 @@ function ProductDetails({ product, onAddToCart }) {
         />
         <p className={style.productDescription}>{product.description}</p>
         <div className={style.productPrice}>
+          <i className="pi pi-tag"></i>
           <span className={style.priceLabel}>Price:</span>
           <span className={style.priceValue}>{product.price} €</span>
         </div>
