@@ -141,23 +141,5 @@
   }
 }
 
-@keyframes holographic-animation {
-  0%, 100% {
-    transform: perspective(500px) rotateX(0) rotateY(0) scale(1);
-    opacity: 1;
-  }
-  50% {
-    transform: perspective(500px) rotateX(10deg) rotateY(10deg) scale(1.1);
-    opacity: 0.7;
-  }
-}
 
-
-
-
-
-/* Appliquer l'animation à l'élément au survol */
-.holographicEffect:hover {
-  animation: holographic-animation 0.5s ease-in-out;
-}
 

@@ -2,7 +2,6 @@ import style from "../styles/Home.module.css";
 import Navbar from "../components/Navbar";
 import PromoStrip from "../components/PromoStrip";
 import { Carousel } from "primereact/carousel";
-import { Button } from "primereact/button";
 import Image from "next/image";
 import { SetStateAction, useState, useEffect } from "react";
 import ProductDetails from "../components/ProductDetails";
@@ -13,9 +12,6 @@ function Home() {
   const [products, setProducts] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
 
-
-
-  const [Product, setProduct] = useState([]);
 
 
   useEffect(() => {
