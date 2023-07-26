@@ -29,6 +29,12 @@ class ProductFixtures extends Fixture
             '/Mushroom5.jpg',
         ];
 
+        $categoryNames = [
+            'Pouvoirs',
+            'Psycotrope 2',
+            'Category 3',
+        ];
+
 
         $categories = $manager->getRepository('App\Entity\Category')->findAll();
 
