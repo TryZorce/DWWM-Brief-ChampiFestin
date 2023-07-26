@@ -1,7 +1,6 @@
 import style from "../styles/Home.module.css";
 import Navbar from "../components/Navbar";
 import PromoStrip from "../components/PromoStrip";
-import Cart from "../components/Cart";
 import { Carousel } from "primereact/carousel";
 import { Button } from "primereact/button";
 import Image from "next/image";
@@ -127,7 +126,7 @@ function Home() {
             className={`flex align-items-center justify-content-center pt-2 px-3 gap-2 ${style.buttonRow}`}
           >
             <button
-              className={`p-3 flex align-items-center justify-content-center w-7 gap-2 bg-purple-700 shadow-1 border-none cursor-pointer hover:bg-black-alpha-20 transition-duration-200 ${style.contactButton}`}
+              className={`p-3 flex align-items-center justify-content-center w-7 gap-2 bg-purple-600 shadow-1 border-none cursor-pointer hover:bg-purple-400 transition-duration-200 ${style.contactButton}`}
             >
               <span className="font-semibold text-gray-300 white-space-nowrap">
                 Add To Cart
@@ -164,10 +163,9 @@ function Home() {
           responsiveOptions={responsiveOptions}
         />
       </div>
-      <div className="card flex justify-content-center">
+      {/* <div className="card flex justify-content-center">
         <Button label="Check" icon="pi pi-check" />
-      </div>
-      {/* <Cart /> */}
+      </div> */}
     </div>
   );
 }

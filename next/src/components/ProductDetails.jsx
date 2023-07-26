@@ -1,10 +1,12 @@
-// components/ProductDetails.jsx
 import { Panel } from "primereact/panel";
 import { Rating } from "primereact/rating";
 import { Button } from "primereact/button";
+import { useState } from "react";
 import style from "../components/productDetail.module.css";
 
 function ProductDetails({ product }) {
+  const [ratingValue, setRatingValue] = useState(null); // Déclarer un état local pour la notation
+
   return (
     <Panel header="Product Details" className={style.productDetails}>
       <div className={style.productImage}>
