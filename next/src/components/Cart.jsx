@@ -5,13 +5,18 @@ import style from "../components/cart.module.css";
 import { RiPriceTag2Fill } from "react-icons/ri";
 import makeRequest from "@/utils/Fetcher";
 
+
 function Cart({ products }) {
   const [cartProducts, setCartProducts] = useState(products);
   const [codes, setCodes] = useState([]);
   const [codeData, setCodeData] = useState({});
-  const [promo, setPromo] = useState("");
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
   
+  const errorMessages = ["C'est une hallucination collective!", "Toi par contre t'as trop fumé mon reuf",
+  "T'as les crampté?", "Apagnan", "Baguette is not happy with that", "Quoicoubeh", "Quoicoubaka", "Salade tomates oignons",
+  "Dev full stack double écran", "Kebab Kebab", "Ouais c'est Greg", "Ouais c'est le fils de Greg", "Allô Bassem?", "Whesh Apex", "ça paye Simplon"]
+
   useEffect(() => {
     makeRequest({
       url: "http://localhost:8000/api/promotions",
@@ -22,7 +27,8 @@ function Cart({ products }) {
     })
   }, [])
 
-  const getPromotion = (value) => {
+  const getPromotion = async (value) => {
+    console.log(`http://localhost:8000/api/promotions?code=${value}`);
     return makeRequest({
       url: `http://localhost:8000/api/promotions?code=${value}`,
       method: "get",
@@ -30,11 +36,20 @@ function Cart({ products }) {
     })
     .then((data) => {
       if (data.length > 0) {
-        console.log("perfecto => ");
-        console.log(data[0]);
+        setError("");
         setCodeData(data[0]);
-      } else {
-        console.log("hubo un error");
+        if(data[0].percentage){
+          setSuccess(`You have used the code ${data[0].code} successfully! You saved ${data[0].value}%`)
+        }else {
+          setSuccess(`You have used the code ${data[0].code} successfully! You saved ${data[0].value}€`)
+        }
+        
+      } else if(value.toLowerCase() === "hitler" || value.toLowerCase() === "adolf" || value.toLowerCase() === "nazi") {
+        setError("卐 NEIN NEIN NEIN NEIN 卐")
+      }else {
+        // Math.floor(errorMessages.length)
+        
+        setError(errorMessages[Math.floor(Math.random()*errorMessages.length)])
       }
     })
     .catch((error) => {
@@ -42,28 +57,22 @@ function Cart({ products }) {
     });
   };
 
+  useEffect(() => {
+    calculateTotal()
+  }, [codeData])
+
   const applyPromoCode = () => {
     const inputPromo = document.querySelector("#promoCodeInput");
     const { value } = inputPromo;
     const match = value.match(/^[a-zA-Z0-9_.,;:!¡¿?@#"\'+&*-]+$/gm);
   
-    if (match && match.length > 0) {
+    if (match !== null && match.length > 0) {
       const testCode = match[0];
   
-      getPromotion(testCode) // Llamamos a getPromotion sin await
-        .then(() => {
-          console.log("listo pa");
-  
-          if (Object.keys(codeData).length > 0) {
-            console.log(codeData);
-            alert("Código válido");
-          }
-        })
-        .catch((error) => {
-          console.log("Error en applyPromoCode:", error);
-        });
-    } else {
-      console.log("El código ingresado no es válido");
+      getPromotion(testCode)
+
+    }else{
+      setError("Wtf you're trying to do???")
     }
     
     
@@ -95,18 +104,23 @@ function Cart({ products }) {
   // Calculer le total du panier
   function calculateTotal() {
     let total = 0;
+    
     cartProducts.forEach((product) => {
       total += product.price;
     });
 
-    // if(promo.trim() !== "") {
-    //   getPromotion(promo);
-    //   if(codeData.percentage){
-    //     total -= total * codeData.value / 100
-    //   }else{
-    //     total -= codeData.value
-    //   }
-    // }
+    if(Object.keys(codeData).length > 0){
+
+      if(codeData.percentage){
+        console.log("c'est un pourcentage");
+        total -= total * codeData.value / 100
+      }else{
+        console.log("c'est en euros => " + codeData.value);
+        total -= codeData.value
+      }
+      
+    }
+
     return total;
   }
 
@@ -131,10 +145,21 @@ function Cart({ products }) {
                 </li>
               ))}
             </ul>
+            {
+              success && (
+                <p>{success}</p>
+              )
+            }
+            {
+              error && (
+                <p>{error}</p>
+              )
+            }
             <div className={style.total}>
               <span>Total :</span>
               <span>{calculateTotal()} €</span>
             </div>
+            
             <input type="text" placeholder="Code promo" id="promoCodeInput" /> <button onClick={applyPromoCode}><RiPriceTag2Fill /></button>
           </>
         )}
