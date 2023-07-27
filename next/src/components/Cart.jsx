@@ -103,19 +103,29 @@ const Cart = ({products}) => {
     }));
   }
 
-  const confirmOrder = () => {
-    const orderMessage = `Thank you for your order, ${customerInfo.name}! Your order is confirmed. You can pick it up in 3 hours.`;
-    alert(orderMessage);
-    console.log("Customer Information:", customerInfo);
-    console.log("Order Products:", cartProducts);
 
-    setCustomerInfo({
-      name: "",
-      surname: "",
-      email: "",
-      phone: "",
-    });
-    setCartProducts([]);
+  const confirmOrder = () => {
+
+    if(customerInfo.name.trim() === "" || !customerInfo.name.trim().match(/[a-zA-Z ]{2,30}/)
+    || customerInfo.surname.trim() === "" || !customerInfo.surname.trim().match(/[a-zA-Z ]{2,30}/)
+    || customerInfo.email.trim() === "" 
+    ||customerInfo.phone.trim() === ""){
+      alert("Please fill your information so we can contact you.")
+    }else {
+      const orderMessage = `Thank you for your order, ${customerInfo.name}! Your order is confirmed. You can pick it up in 3 hours.`;
+      alert(orderMessage);
+      console.log("Customer Information:", customerInfo);
+      console.log("Order Products:", cartProducts);
+
+      setCustomerInfo({
+        name: "",
+        surname: "",
+        email: "",
+        phone: "",
+      });
+      setCartProducts([]);
+    }
+    
   }
 
   return (
@@ -177,6 +187,7 @@ const Cart = ({products}) => {
               name="surname"
               value={customerInfo.surname}
               onChange={handleInputChange}
+              
             />
           </div>
           <div className={style.formGroup}>
