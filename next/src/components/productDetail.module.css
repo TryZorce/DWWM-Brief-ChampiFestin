@@ -16,6 +16,7 @@
   object-fit: cover;
   border-radius: 5px;
   margin-bottom: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .productName {
@@ -68,7 +69,8 @@
   background-color: #543d79;
   color: #fff;
   border: none;
-  padding: 10px 20px;
+  padding: 10px 30px;
+  margin: 1rem;
   font-size: 16px;
   border-radius: 5px;
   cursor: pointer;
