@@ -36,6 +36,7 @@ const Cart = () => {
       url: `http://localhost:8000/api/promotions?code=${value}`,
       method: "get",
       data: ""
+      data: ""
     })
     .then((data) => {
       if (data.length > 0) {
@@ -113,6 +114,7 @@ const Cart = () => {
     }));
   }
 
+
   const confirmOrder = () => {
 
     if(customerInfo.name.trim() === "" || !customerInfo.name.trim().match(/[a-zA-Z ]{2,30}/)
@@ -125,6 +127,28 @@ const Cart = () => {
       alert(orderMessage);
       console.log("Customer Information:", customerInfo);
       console.log("Order Products:", cartProducts);
+
+    if(customerInfo.name.trim() === "" || !customerInfo.name.trim().match(/[a-zA-Z ]{2,30}/)
+    || customerInfo.surname.trim() === "" || !customerInfo.surname.trim().match(/[a-zA-Z ]{2,30}/)
+    || customerInfo.email.trim() === "" 
+    ||customerInfo.phone.trim() === ""){
+      alert("Please fill your information so we can contact you.")
+    }else {
+      const orderMessage = `Thank you for your order, ${customerInfo.name}! Your order is confirmed. You can pick it up in 3 hours.`;
+      alert(orderMessage);
+      console.log("Customer Information:", customerInfo);
+      console.log("Order Products:", cartProducts);
+
+      setCustomerInfo({
+        name: "",
+        surname: "",
+        email: "",
+        phone: "",
+      });
+      setCartProducts([]);
+    }
+    
+  }
 
       setCustomerInfo({
         name: "",
@@ -196,6 +220,7 @@ const Cart = () => {
               name="surname"
               value={customerInfo.surname}
               onChange={handleInputChange}
+              
               
             />
           </div>
