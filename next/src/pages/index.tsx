@@ -52,6 +52,8 @@ function Home() {
     if (category.name === "Tous les produits") {
       setSelectedCategory(null);
     } else {
+      console.log(category);
+
       setSelectedCategory(category);
     }
   }
@@ -166,13 +168,15 @@ function Home() {
     : products;
 
   const categories = [
-    { id: 0, name: "Tous les produits" }, 
+    { id: 0, name: "Tous les produits" },
 
     // id 0 = Option spéciale pour voir tous les produits si changer , modifier function handleCategoryFilter
 
-    { id: 1, name: "non" },
-    { id: 2, name: "molestias" },
-    { id: 3, name: "Category 3" },
+    { id: 1, name: "Enchanterelles" },
+    { id: 2, name: "Célestiflores" },
+    { id: 3, name: "Sylvalunaires" },
+    { id: 4, name: "Ombraethérique" },
+    { id: 5, name: "Chronospires" },
   ];
 
   return (
@@ -187,11 +191,10 @@ function Home() {
             <li
               key={category.id}
               onClick={() => handleCategoryFilter(category)}
-              className={`${style.categoryItem} ${
-                selectedCategory && selectedCategory.id === category.id
-                  ? "active"
-                  : ""
-              }`}
+              className={`${style.categoryItem} ${selectedCategory && selectedCategory.id === category.id
+                ? "active"
+                : ""
+                }`}
             >
               {category.name}
             </li>
@@ -201,7 +204,7 @@ function Home() {
       <div className={style.carousel}>
         <Carousel
           value={filteredProducts}
-          numVisible={4}
+          numVisible={3}
           numScroll={3}
           itemTemplate={productTemplate}
           className={style.carouselContainer}
@@ -209,7 +212,6 @@ function Home() {
           prevIcon={<i className="pi pi-chevron-left"></i>}
           nextIcon={<i className="pi pi-chevron-right"></i>}
         />
-
       </div>
     </div>
   );
