@@ -182,7 +182,6 @@ function Home() {
     <div>
       <Navbar />
       <PromoStrip />
-      <div className={style.slogan}>{/* <h1>Halluciner</h1> */}</div>
       {selectedProduct && <ProductDetails product={selectedProduct} onAddToCart={undefined} />}
       <div>
         <ul className={style.categoryContainer}>
