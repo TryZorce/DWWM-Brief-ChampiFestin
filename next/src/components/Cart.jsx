@@ -119,10 +119,8 @@ function Cart({ products }) {
     if(Object.keys(codeData).length > 0){
 
       if(codeData.percentage){
-        console.log("c'est un pourcentage");
         total -= total * codeData.value / 100
       }else{
-        console.log("c'est en euros => " + codeData.value);
         total -= codeData.value
       }
       
