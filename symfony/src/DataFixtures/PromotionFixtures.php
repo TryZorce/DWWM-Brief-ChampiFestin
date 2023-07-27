@@ -15,7 +15,9 @@ class PromotionFixtures extends Fixture
             $promotion = new Promotion();
             $promotion->setTitle($faker->word);
             $promotion->setCode($faker->word);
-            $promotion->setValue($faker->randomNumber());
+            $nombreAleatoire = $faker->numberBetween(1, 30);
+            $promotion->setValue($nombreAleatoire);
+
             $promotion->setPercentage($faker->boolean);
 
             $manager->persist($promotion);
