@@ -2,6 +2,7 @@
     width: 100%;
     max-width: 600px;
     margin: 0 auto;
+    margin-top: 20px;
     padding: 20px;
     background-color: #343a40;
     color: #fff;
@@ -48,3 +49,54 @@
     color: #ffcc00;
   }
   
+.productList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.productItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.productItem span {
+  flex: 1;
+}
+
+.total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.customerInfo {
+  margin-top: 30px;
+}
+
+.formGroup {
+  display: flex;
+  margin-bottom: 10px;
+  align-items: center;
+}
+
+.formGroup label {
+  flex: 1;
+  margin-right: 10px;
+}
+
+.formGroup input {
+  flex: 2;
+  padding: 8px;
+  border: 1px solid #777; 
+  border-radius: 4px;
+}
+
+
+.total span:first-child,
+.p-button-success {
+  color: #a55eea;
+}
