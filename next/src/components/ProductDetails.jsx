@@ -12,6 +12,8 @@ function ProductDetails({ product, onAddToCart }) {
   };
 
   const handleAddToCart = () => {
+    // Enregistre le produit dans le localStorage
+    localStorage.setItem("selectedProduct", JSON.stringify(product));
     onAddToCart(product);
   };
 
