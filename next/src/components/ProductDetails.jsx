@@ -41,7 +41,7 @@ function ProductDetails({ product, onAddToCart }) {
           <span className={style.categoryLabel}>Category:</span>
           {product.category.map((category) => (
             <span key={category.id} className={style.category}>
-              {category.name}
+              {category.name} 
             </span>
           ))}
         </div>

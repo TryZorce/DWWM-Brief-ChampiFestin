@@ -20,7 +20,7 @@ function Home() {
       url: "http://localhost:8000/api/products",
       data: "",
     }).then((data) => {
-      const availableProducts = data.filter((product) => product.available);
+      const availableProducts = data.filter((product: { available: any; }) => product.available);
       setProducts(availableProducts);
     });
   }, []);
@@ -179,7 +179,7 @@ function Home() {
       <Navbar />
       <PromoStrip />
       <div className={style.slogan}>{/* <h1>Halluciner</h1> */}</div>
-      {selectedProduct && <ProductDetails product={selectedProduct} />}
+      {selectedProduct && <ProductDetails product={selectedProduct} onAddToCart={undefined} />}
       <div>
         <ul className={style.categoryContainer}>
           {categories.map((category) => (
