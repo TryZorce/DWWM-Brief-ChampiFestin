@@ -21,7 +21,7 @@ function Navbar() {
         </div>
         <nav className={style.navbar}>
           <a href="/cart">
-          <FaShoppingCart size={40} style={{ cursor: "pointer" }} />
+          <FaShoppingCart size={40} style={{ cursor: "pointer", marginRight: "30px", color: "white",  boxshadow: "2px 2px 4px rgba(0, 0, 0, 0.5)"  }} />
           </a>
         </nav>
       </header>
