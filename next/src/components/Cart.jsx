@@ -6,10 +6,9 @@ import { RiPriceTag2Fill } from "react-icons/ri";
 import makeRequest from "@/utils/Fetcher";
 
 
-function Cart({ products }) {
+const Cart = ({products}) => {
   const [cartProducts, setCartProducts] = useState(products);
 
-  const [codes, setCodes] = useState([]);
   const [codeData, setCodeData] = useState({});
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
@@ -17,16 +16,6 @@ function Cart({ products }) {
   const errorMessages = ["C'est une hallucination collective!", "Toi par contre t'as trop fumé mon reuf",
   "T'as les crampté?", "Apagnan", "Baguette is not happy with that", "Quoicoubeh", "Quoicoubaka", "Salade tomates oignons",
   "Dev full stack double écran", "Kebab Kebab", "Ouais c'est Greg", "Ouais c'est le fils de Greg", "Allô Bassem?", "Whesh Apex", "ça paye Simplon"]
-
-  useEffect(() => {
-    makeRequest({
-      url: "http://localhost:8000/api/promotions",
-      method: "get",
-      data: ""
-    }).then((data) => {
-      setCodes(data);
-    })
-  }, [])
 
   const getPromotion = async (value) => {
     console.log(`http://localhost:8000/api/promotions?code=${value}`);
@@ -48,14 +37,10 @@ function Cart({ products }) {
       } else if(value.toLowerCase() === "hitler" || value.toLowerCase() === "adolf" || value.toLowerCase() === "nazi") {
         setError("卐 NEIN NEIN NEIN NEIN 卐")
       }else {
-        // Math.floor(errorMessages.length)
         
         setError(errorMessages[Math.floor(Math.random()*errorMessages.length)])
       }
     })
-    .catch((error) => {
-      console.log("Error al obtener la promoción:", error);
-    });
   };
 
   useEffect(() => {
@@ -75,25 +60,6 @@ function Cart({ products }) {
     }else{
       setError("Wtf you're trying to do???")
     }
-    
-    
-    
-
-    // const validCodes = [];
-    // codes.forEach(code => {
-    //   validCodes.push(code.code)
-    // });
-    // if(validCodes.includes(value) && value !== promo){
-    //   setPromo(value);
-    //   inputPromo.value = ""
-    //   console.log("good");
-    // }else if(!validCodes.includes(value)){
-    //   setError("Invalid promo code!")
-    //   console.log("bad");
-    // }else{
-    //   console.log("wtf bro");
-    // }
-
   }
 
   const [customerInfo, setCustomerInfo] = useState({
@@ -104,12 +70,12 @@ function Cart({ products }) {
   });
 
 
-  function removeProduct(productId) {
+  const removeProduct = (productId) => {
     const updatedCart = cartProducts.filter((product) => product.id !== productId);
     setCartProducts(updatedCart);
   }
 
-  function calculateTotal() {
+  const calculateTotal = () => {
     let total = 0;
     
     cartProducts.forEach((product) => {
@@ -129,7 +95,7 @@ function Cart({ products }) {
     return total;
   }
 
-  function handleInputChange(event) {
+  const handleInputChange = (event) => {
     const { name, value } = event.target;
     setCustomerInfo((prevCustomerInfo) => ({
       ...prevCustomerInfo,
@@ -137,7 +103,7 @@ function Cart({ products }) {
     }));
   }
 
-  function confirmOrder() {
+  const confirmOrder = () => {
     const orderMessage = `Thank you for your order, ${customerInfo.name}! Your order is confirmed. You can pick it up in 3 hours.`;
     alert(orderMessage);
     console.log("Customer Information:", customerInfo);
