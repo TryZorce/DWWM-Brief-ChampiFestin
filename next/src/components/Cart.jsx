@@ -8,6 +8,7 @@ import makeRequest from "@/utils/Fetcher";
 
 function Cart({ products }) {
   const [cartProducts, setCartProducts] = useState(products);
+
   const [codes, setCodes] = useState([]);
   const [codeData, setCodeData] = useState({});
   const [error, setError] = useState("");
@@ -95,13 +96,19 @@ function Cart({ products }) {
 
   }
 
-  // Supprimer un produit du panier
+  const [customerInfo, setCustomerInfo] = useState({
+    name: "",
+    surname: "",
+    email: "",
+    phone: "",
+  });
+
+
   function removeProduct(productId) {
     const updatedCart = cartProducts.filter((product) => product.id !== productId);
     setCartProducts(updatedCart);
   }
 
-  // Calculer le total du panier
   function calculateTotal() {
     let total = 0;
     
@@ -124,9 +131,32 @@ function Cart({ products }) {
     return total;
   }
 
+  function handleInputChange(event) {
+    const { name, value } = event.target;
+    setCustomerInfo((prevCustomerInfo) => ({
+      ...prevCustomerInfo,
+      [name]: value,
+    }));
+  }
+
+  function confirmOrder() {
+    const orderMessage = `Thank you for your order, ${customerInfo.name}! Your order is confirmed. You can pick it up in 3 hours.`;
+    alert(orderMessage);
+    console.log("Customer Information:", customerInfo);
+    console.log("Order Products:", cartProducts);
+
+    setCustomerInfo({
+      name: "",
+      surname: "",
+      email: "",
+      phone: "",
+    });
+    setCartProducts([]);
+  }
+
   return (
     <div className={style.cart}>
-      <Panel header="Mon Panier" className={style.panel}>
+      <Panel header="Cart" className={style.panel}>
         {cartProducts.length === 0 ? (
           <p>Your cart is empty.</p>
         ) : (
@@ -137,7 +167,7 @@ function Cart({ products }) {
                   <span>{product.name}</span>
                   <span>{product.price} €</span>
                   <Button
-                    label="Supprimer"
+                    label="Delete"
                     icon="pi pi-trash"
                     className="p-button-danger"
                     onClick={() => removeProduct(product.id)}
@@ -163,6 +193,54 @@ function Cart({ products }) {
             <input type="text" placeholder="Code promo" id="promoCodeInput" /> <button onClick={applyPromoCode}><RiPriceTag2Fill /></button>
           </>
         )}
+        <div className={style.customerInfo}>
+          <h2>Customer Information</h2>
+          <div className={style.formGroup}>
+            <label htmlFor="name">Name:</label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              value={customerInfo.name}
+              onChange={handleInputChange}
+            />
+          </div>
+          <div className={style.formGroup}>
+            <label htmlFor="surname">Surname:</label>
+            <input
+              type="text"
+              id="surname"
+              name="surname"
+              value={customerInfo.surname}
+              onChange={handleInputChange}
+            />
+          </div>
+          <div className={style.formGroup}>
+            <label htmlFor="email">Email:</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              value={customerInfo.email}
+              onChange={handleInputChange}
+            />
+          </div>
+          <div className={style.formGroup}>
+            <label htmlFor="phone">Phone:</label>
+            <input
+              type="text"
+              id="phone"
+              name="phone"
+              value={customerInfo.phone}
+              onChange={handleInputChange}
+            />
+          </div>
+          <Button
+            label="Confirm Order"
+            className="p-button-success"
+            onClick={confirmOrder}
+          />
+        </div>
       </Panel>
     </div>
   );

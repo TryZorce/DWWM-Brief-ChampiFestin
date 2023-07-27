@@ -8,13 +8,19 @@ class CategoryFixtures extends AbstractFixture
 {
     public function load(ObjectManager $manager)
     {
-        $faker = \Faker\Factory::create();
+        $categoryNames = [
+            'Enchanterelles',
+            'Célestiflores',
+            'Sylvalunaires',
+            'Ombraethérique',
+            'Chronospires',
+        ];
 
-        for ($i = 0; $i < 3; $i++) {
+        foreach ($categoryNames as $name) {
             $category = new Category();
-            $category->setName($faker->word);
-            $category->setDescription($faker->sentence);
-            $category->setIntensity($faker->numberBetween(1, 10));
+            $category->setName($name);
+            $category->setDescription('Description de la catégorie ' . $name); // Remplacez par la description souhaitée
+            $category->setIntensity(rand(1, 10)); // Utilisation de rand() pour générer un nombre aléatoire entre 1 et 10
 
             $manager->persist($category);
         }

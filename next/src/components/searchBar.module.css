@@ -1,13 +1,41 @@
 /* Style pour la SearchBar */
 .searchBar {
-    display: flex;
-    align-items: center;
-    width: 300px;
-    background-color: #ffffff;
-    border-radius: 4px;
-    padding: 8px;
-    box-shadow: 2px 5px 2px 1px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  width: 500px;
+  background-color: #ffffff00;
+  background-image: url(../../public/media/Leonardo_Diffusion_Hyper_realistic_of_hallucinogenic_mushrooms_0.jpg);
+  background-size: 100%;
+  background-position: center;
+  border-radius: 4px;
+  padding: 8px;
+  box-shadow: 2px 5px 2px 1px rgba(0, 0, 0, 0.2);
+  border: 3px solid transparent;
+  transition: border-color 0.3s ease;
+}
+
+@keyframes borderAnimation {
+  0% {
+    border-color: rgba(252, 2, 2, 0.842); /* Bordure transparente */
   }
+  50% {
+    border-color: rgba(255, 251, 0, 0.788); /* Bordure semi-transparente */
+  }
+  100% {
+    border-color: rgb(0, 255, 0); /* Bordure blanche */
+  }
+}
+
+/* Lorsque le pointeur survole la barre de recherche */
+.searchBar:hover {
+  animation: borderAnimation 1s infinite;
+}
+
+/* Lorsque la barre de recherche est sélectionnée (a le focus) */
+.searchBar:focus {
+  outline: none; /* Supprime la bordure de focus par défaut du navigateur */
+  border-color: #ffffff; /* Couleur de la bordure blanche */
+}
   
   /* Style pour l'input de recherche */
   .searchInput {
@@ -16,8 +44,8 @@
     outline: none;
     font-size: 14px;
     padding: 8px;
-    background-color: #ffffff;
-    color: black;
+    background-color: #ffffff00;
+    color: rgb(255, 255, 255);
   }
   
   /* Style pour le bouton de recherche */
@@ -31,7 +59,7 @@
   
   /* Style pour l'icône de loupe */
   .searchButton svg {
-    color: #888888;
+    color: #ffffff;
     font-size: 18px;
   }
   

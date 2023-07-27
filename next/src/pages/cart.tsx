@@ -24,15 +24,12 @@ function Home() {
         <div className={style.container}>
             {/* Affichage du composant Navbar */}
             <Navbar />
-
-            {/* Titre de la section panier */}
-            <h1>Panier</h1>
-
+            
             {/* Affichage du composant Cart avec les produits passés en props */}
             <Cart products={products} />
 
             {/* Affichage du composant ProductDetails si un produit est sélectionné */}
-            {selectedProduct && <ProductDetails product={selectedProduct} />}
+            {selectedProduct && <ProductDetails product={selectedProduct} onAddToCart={undefined} />}
         </div>
     );
 }

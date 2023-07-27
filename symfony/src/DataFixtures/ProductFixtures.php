@@ -20,7 +20,6 @@ class ProductFixtures extends Fixture
     {
         $faker = \Faker\Factory::create();
 
-
         $images = [
             '/Mushroom1.jpg',
             '/Mushroom2.jpg',
@@ -29,20 +28,36 @@ class ProductFixtures extends Fixture
             '/Mushroom5.jpg',
         ];
 
-
         $categories = $manager->getRepository('App\Entity\Category')->findAll();
+        $productsByCategory = [];
 
-        for ($i = 0; $i < 10; $i++) {
-            $product = new Product();
-            $product->setName($faker->word);
-            $product->setPrice($faker->numberBetween(50, 500));
-            $product->setStock($faker->numberBetween(0, 100));
-            $product->setAvailable($faker->boolean());
-            $randomImage = $faker->randomElement($images);
-            $product->setImage($randomImage);
-            $randomCategory = $faker->randomElement($categories);
-            $product->addCategory($randomCategory);
-            $manager->persist($product);
+        foreach ($categories as $category) {
+            $availableProductsCount = 0;
+            foreach ($category->getProducts() as $product) {
+                if ($product->getAvailable()) {
+                    $availableProductsCount++;
+                }
+            }
+
+            for ($i = $availableProductsCount; $i < 3; $i++) {
+                $product = new Product();
+                $product->setName($faker->word);
+                $product->setPrice($faker->numberBetween(50, 500));
+                $product->setStock($faker->numberBetween(0, 100));
+                $product->setAvailable(true);
+                $randomImage = $faker->randomElement($images);
+                $product->setImage($randomImage);
+                $product->addCategory($category);
+                $manager->persist($product);
+
+                $availableProductsCount++;
+
+                $categoryId = $category->getId();
+                if (!isset($productsByCategory[$categoryId])) {
+                    $productsByCategory[$categoryId] = [];
+                }
+                $productsByCategory[$categoryId][] = $product;
+            }
         }
 
         $manager->flush();

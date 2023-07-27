@@ -1,31 +1,29 @@
 import style from "../styles/Home.module.css";
 import Navbar from "../components/Navbar";
 import PromoStrip from "../components/PromoStrip";
-import Cart from "../components/Cart";
 import { Carousel } from "primereact/carousel";
-import { Button } from "primereact/button";
 import Image from "next/image";
-import { SetStateAction, useState } from "react";
+import { SetStateAction, useState, useEffect } from "react";
 import ProductDetails from "../components/ProductDetails";
-
 import makeRequest from "@/utils/Fetcher";
-import { useEffect } from "react";
 
 function Home() {
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const [products, setProducts] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState(null);
 
-  const [Product, setProduct] = useState([]);
-  
+
+
   useEffect(() => {
     makeRequest({
       method: "get",
       url: "http://localhost:8000/api/products",
       data: "",
     }).then((data) => {
-      setProduct(data);
-      // console.log(data)
+      const availableProducts = data.filter((product: { available: any; }) => product.available);
+      setProducts(availableProducts);
     });
-  }, []); 
+  }, []);
 
   const responsiveOptions = [
     {
@@ -45,11 +43,21 @@ function Home() {
     },
   ];
 
-  function handleProductClick(product: SetStateAction<null>) {
+  function handleProductClick(product: any) {
     setSelectedProduct(product);
   }
 
-  function productTemplate(product: SetStateAction<null>) {
+  function handleCategoryFilter(category: any) {
+    if (category.name === "Tous les produits") {
+      setSelectedCategory(null);
+    } else {
+      console.log(category);
+
+      setSelectedCategory(category);
+    }
+  }
+
+  function productTemplate(product: any) {
     return (
       <div
         className={`${style.product} m-5 bg-bluegray-900 shadow-1 border-round-xl`}
@@ -123,12 +131,15 @@ function Home() {
                 Sleepy
               </span>
             </div>
+            <div className="bg-purple-400 shadow-2 border-none p-2 border-round-xs">
+              <span className="font-bold">{product.price} €</span>
+            </div>
           </div>
           <div
             className={`flex align-items-center justify-content-center pt-2 px-3 gap-2 ${style.buttonRow}`}
           >
             <button
-              className={`p-3 flex align-items-center justify-content-center w-7 gap-2 bg-purple-700 shadow-1 border-none cursor-pointer hover:bg-black-alpha-20 transition-duration-200 ${style.contactButton}`}
+              className={`p-3 flex align-items-center justify-content-center w-7 gap-2 bg-purple-600 shadow-1 border-none cursor-pointer hover:bg-purple-400 transition-duration-200 ${style.contactButton}`}
             >
               <span className="font-semibold text-gray-300 white-space-nowrap">
                 Add To Cart
@@ -149,26 +160,57 @@ function Home() {
     );
   }
 
+  const filteredProducts = selectedCategory
+    ? products.filter((product) =>
+      product.category.some((cat: { name: any; }) => cat.name === selectedCategory.name)
+    )
+    : products;
+
+  const categories = [
+    { id: 0, name: "Tous les produits" },
+
+    // id 0 = Option spéciale pour voir tous les produits si changer , modifier function handleCategoryFilter
+
+    { id: 1, name: "Enchanterelles" },
+    { id: 2, name: "Célestiflores" },
+    { id: 3, name: "Sylvalunaires" },
+    { id: 4, name: "Ombraethérique" },
+    { id: 5, name: "Chronospires" },
+  ];
+
   return (
     <div>
       <Navbar />
       <PromoStrip />
-      <div className={style.slogan}>{/* <h1>Halluciner</h1> */}</div>
-      {selectedProduct && <ProductDetails product={selectedProduct} />}
+      {selectedProduct && <ProductDetails product={selectedProduct} onAddToCart={undefined} />}
+      <div>
+        <ul className={style.categoryContainer}>
+          {categories.map((category) => (
+            <li
+              key={category.id}
+              onClick={() => handleCategoryFilter(category)}
+              className={`${style.categoryItem} ${selectedCategory && selectedCategory.id === category.id
+                ? "active"
+                : ""
+                }`}
+            >
+              {category.name}
+            </li>
+          ))}
+        </ul>
+      </div>
       <div className={style.carousel}>
         <Carousel
-          value={Product}
-          numVisible={4}
+          value={filteredProducts}
+          numVisible={3}
           numScroll={3}
           itemTemplate={productTemplate}
           className={style.carouselContainer}
           responsiveOptions={responsiveOptions}
+          prevIcon={<i className="pi pi-chevron-left"></i>}
+          nextIcon={<i className="pi pi-chevron-right"></i>}
         />
       </div>
-      <div className="card flex justify-content-center">
-        <Button label="Check" icon="pi pi-check" />
-      </div>
-      {/* <Cart /> */}
     </div>
   );
 }

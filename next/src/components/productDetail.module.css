@@ -1,12 +1,11 @@
-/* components/ProductDetails.module.css */
 
 .productDetails {
   width: 100%;
   max-width: 600px;
   margin: 0 auto;
-  background-color: #343a40;
+  padding: 10px;
+  background-color: #343a4054;
   color: #fff;
-  border-color: #343a40;
   border-radius: 5px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
@@ -32,15 +31,19 @@
 }
 
 .productPrice {
+  width: 130px;
+  padding: 0.5rem;
   font-size: 18px;
   font-weight: bold;
+  background-color: #8e67cc;
+  border-radius: 5px;
+
 }
 
 .priceLabel {
   margin-right: 5px;
 }
 
-/* Style pour la catégorie */
 .productCategories {
   font-size: 14px;
   margin-bottom: 10px;
@@ -53,7 +56,7 @@
 
 .category {
   display: inline-block;
-  background-color: #8e67cc;
+  background-color:#543d79;
   color: #fff;
   margin-top: 10px;
   padding: 5px 10px;
@@ -75,3 +78,68 @@
 .addToCartButton:hover {
   background-color: #8e67cc;
 }
+
+.holographicEffect {
+  position: relative;
+  overflow: hidden;
+  box-shadow: 
+    0 0 10px rgba(255, 1, 1, 0.678),
+    0 0 25px rgba(0, 255, 0, 0.644),
+    0 0 50px rgba(0, 238, 255, 0.733);
+  animation: holographicAnimationRGB 1s infinite ease-in-out;
+}
+
+/* Animation du scintillement */
+@keyframes holographicAnimationRGB {
+  0% {
+    box-shadow: 
+      0 0 10px rgba(255, 1, 1, 0.678),
+      0 0 25px rgba(0, 255, 0, 0.644),
+      0 0 50px rgba(0, 238, 255, 0.733);
+  }
+  16.666% {
+    box-shadow: 
+      0 0 10px rgba(255, 1, 1, 0.678),
+      0 0 25px rgba(0, 255, 0, 0.644),
+      0 0 50px rgba(0, 238, 255, 0.733),
+      0 0 75px rgba(255, 255, 0, 0.7);
+  }
+  33.333% {
+    box-shadow: 
+      0 0 10px rgba(0, 238, 255, 0.733),
+      0 0 25px rgba(255, 1, 1, 0.678),
+      0 0 50px rgba(0, 255, 0, 0.644),
+      0 0 75px rgba(255, 255, 0, 0.7);
+  }
+  50% {
+    box-shadow: 
+      0 0 10px rgba(0, 255, 0, 0.644),
+      0 0 25px rgba(0, 238, 255, 0.733),
+      0 0 50px rgba(255, 1, 1, 0.678),
+      0 0 75px rgba(255, 255, 0, 0.7);
+  }
+  66.666% {
+    box-shadow: 
+      0 0 10px rgba(255, 1, 1, 0.678),
+      0 0 25px rgba(0, 255, 0, 0.644),
+      0 0 50px rgba(0, 238, 255, 0.733),
+      0 0 75px rgba(255, 255, 0, 0.7);
+  }
+  83.333% {
+    box-shadow: 
+      0 0 10px rgba(0, 238, 255, 0.733),
+      0 0 25px rgba(255, 1, 1, 0.678),
+      0 0 50px rgba(0, 255, 0, 0.644),
+      0 0 75px rgba(255, 255, 0, 0.7);
+  }
+  100% {
+    box-shadow: 
+      0 0 10px rgba(255, 1, 1, 0.678),
+      0 0 25px rgba(0, 255, 0, 0.644),
+      0 0 50px rgba(0, 238, 255, 0.733);
+  }
+}
+
+
+
+
