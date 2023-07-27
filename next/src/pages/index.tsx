@@ -45,6 +45,33 @@ function Home() {
     setSelectedProduct(product);
   }
 
+  function handleAddToCart(product: any) {
+    // Vérifier si le panier existe dans le localStorage
+    let cartItems = localStorage.getItem("cartItems");
+    if (!cartItems) {
+      cartItems = []; // Si le panier n'existe pas encore, initialisez-le avec un tableau vide
+    } else {
+      cartItems = JSON.parse(cartItems); // Si le panier existe, analysez-le en tant qu'objet JS
+    }
+  
+    // Vérifier si le produit existe déjà dans le panier
+    const existingProduct = cartItems.find((item) => item.id === product.id);
+  
+    if (existingProduct) {
+      // Si le produit existe déjà, augmenter sa quantité dans le panier
+      existingProduct.quantity += 1;
+    } else {
+      // Sinon, ajouter le produit au panier avec une quantité initiale de 1
+      cartItems.push({ ...product, quantity: 1 });
+    }
+  
+    // Mettez à jour le panier dans le localStorage
+    localStorage.setItem("cartItems", JSON.stringify(cartItems));
+  
+    // Affichez un message de succès (vous pouvez personnaliser le message selon vos besoins)
+    alert("Le produit a été ajouté au panier !");
+  }
+  
   function handleCategoryFilter(category: any) {
     if (category.name === "Tous les produits") {
       setSelectedCategory(null);
@@ -125,7 +152,7 @@ function Home() {
     <div>
       <Navbar />
       <PromoStrip />
-      {selectedProduct && <ProductDetails product={selectedProduct} onAddToCart={undefined} />}
+      {selectedProduct && <ProductDetails product={selectedProduct} onAddToCart={handleAddToCart} />}
       <div>
         <ul className={style.categoryContainer}>
           {categories.map((category) => (
