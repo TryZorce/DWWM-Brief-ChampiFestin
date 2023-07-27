@@ -5,67 +5,25 @@ import style from "../components/cart.module.css";
 import { RiPriceTag2Fill } from "react-icons/ri";
 import makeRequest from "@/utils/Fetcher";
 
-function Cart() {
-  const [cartProducts, setCartProducts] = useState([]);
-  const [customerInfo, setCustomerInfo] = useState({
-    name: "",
-    surname: "",
-    email: "",
-    phone: "",
-  });
-
-  useEffect(() => {
-    // Récupérer les produits du localStorage lors de l'initialisation du composant
-    const storedProducts = localStorage.getItem("cartItems");
-    if (storedProducts) {
-      setCartProducts(JSON.parse(storedProducts));
-    }
-  }, []);
 
 const Cart = ({products}) => {
   const [cartProducts, setCartProducts] = useState(products);
+
   const [codeData, setCodeData] = useState({});
   const [error, setError] = useState("");
-
-
-  useEffect(() => {
-    makeRequest({
-      url: "http://localhost:8000/api/promotions",
-      method: "get",
-      data: "",
-    }).then((data) => {
-      setCodes(data);
-    });
-  }, []);
-
   const [success, setSuccess] = useState("");
   
   const errorMessages = ["C'est une hallucination collective!", "Toi par contre t'as trop fumé mon reuf",
   "T'as les crampté?", "Apagnan", "Baguette is not happy with that", "Quoicoubeh", "Quoicoubaka", "Salade tomates oignons",
   "Dev full stack double écran", "Kebab Kebab", "Ouais c'est Greg", "Ouais c'est le fils de Greg", "Allô Bassem?", "Whesh Apex", "ça paye Simplon"]
 
-
   const getPromotion = async (value) => {
     console.log(`http://localhost:8000/api/promotions?code=${value}`);
     return makeRequest({
       url: `http://localhost:8000/api/promotions?code=${value}`,
       method: "get",
-      data: "",
+      data: ""
     })
-
-      .then((data) => {
-        if (data.length > 0) {
-          console.log("perfecto => ");
-          console.log(data[0]);
-          setCodeData(data[0]);
-        } else {
-          console.log("hubo un error");
-        }
-      })
-      .catch((error) => {
-        console.log("Error al obtener la promoción:", error);
-      });
-
     .then((data) => {
       if (data.length > 0) {
         setError("");
@@ -83,7 +41,6 @@ const Cart = ({products}) => {
         setError(errorMessages[Math.floor(Math.random()*errorMessages.length)])
       }
     })
-
   };
 
   useEffect(() => {
@@ -94,33 +51,6 @@ const Cart = ({products}) => {
     const inputPromo = document.querySelector("#promoCodeInput");
     const { value } = inputPromo;
     const match = value.match(/^[a-zA-Z0-9_.,;:!¡¿?@#"\'+&*-]+$/gm);
-
-
-    if (match && match.length > 0) {
-      const testCode = match[0];
-
-      getPromotion(testCode) // Llamamos a getPromotion sin await
-        .then(() => {
-          console.log("listo pa");
-
-          if (Object.keys(codeData).length > 0) {
-            console.log(codeData);
-            alert("Código válido");
-          }
-        })
-        .catch((error) => {
-          console.log("Error en applyPromoCode:", error);
-        });
-    } else {
-      console.log("El código ingresado no es válido");
-    }
-  };
-
-  function removeProduct(productId) {
-    const updatedCart = cartProducts.filter(
-      (product) => product.id !== productId
-    );
-
   
     if (match !== null && match.length > 0) {
       const testCode = match[0];
@@ -142,7 +72,6 @@ const Cart = ({products}) => {
 
   const removeProduct = (productId) => {
     const updatedCart = cartProducts.filter((product) => product.id !== productId);
-
     setCartProducts(updatedCart);
   }
 
@@ -174,19 +103,29 @@ const Cart = ({products}) => {
     }));
   }
 
-  const confirmOrder = () => {
-    const orderMessage = `Thank you for your order, ${customerInfo.name}! Your order is confirmed. You can pick it up in 3 hours.`;
-    alert(orderMessage);
-    console.log("Customer Information:", customerInfo);
-    console.log("Order Products:", cartProducts);
 
-    setCustomerInfo({
-      name: "",
-      surname: "",
-      email: "",
-      phone: "",
-    });
-    setCartProducts([]);
+  const confirmOrder = () => {
+
+    if(customerInfo.name.trim() === "" || !customerInfo.name.trim().match(/[a-zA-Z ]{2,30}/)
+    || customerInfo.surname.trim() === "" || !customerInfo.surname.trim().match(/[a-zA-Z ]{2,30}/)
+    || customerInfo.email.trim() === "" 
+    ||customerInfo.phone.trim() === ""){
+      alert("Please fill your information so we can contact you.")
+    }else {
+      const orderMessage = `Thank you for your order, ${customerInfo.name}! Your order is confirmed. You can pick it up in 3 hours.`;
+      alert(orderMessage);
+      console.log("Customer Information:", customerInfo);
+      console.log("Order Products:", cartProducts);
+
+      setCustomerInfo({
+        name: "",
+        surname: "",
+        email: "",
+        phone: "",
+      });
+      setCartProducts([]);
+    }
+    
   }
 
   return (
@@ -199,14 +138,6 @@ const Cart = ({products}) => {
             <ul className={style.productList}>
               {cartProducts.map((product) => (
                 <li key={product.id} className={style.productItem}>
-                  <span className={style.productImage}>
-                    <img 
-                      src={
-                        "http://localhost:8000/uploads/images" + product.image
-                      }
-                      alt={product.name}
-                    />
-                  </span>
                   <span>{product.name}</span>
                   <span>{product.price} €</span>
                   <Button
@@ -232,19 +163,10 @@ const Cart = ({products}) => {
               <span>Total :</span>
               <span>{calculateTotal()} €</span>
             </div>
-
-            <input type="text" placeholder="Code promo" id="promoCodeInput" />{" "}
-            <button onClick={applyPromoCode}>
-              <RiPriceTag2Fill />
-            </button>
-
             
             <input type="text" placeholder="Code promo" id="promoCodeInput" /> <button onClick={applyPromoCode}><RiPriceTag2Fill /></button>
-
-              
           </>
         )}
-
         <div className={style.customerInfo}>
           <h2>Customer Information</h2>
           <div className={style.formGroup}>
@@ -265,6 +187,7 @@ const Cart = ({products}) => {
               name="surname"
               value={customerInfo.surname}
               onChange={handleInputChange}
+              
             />
           </div>
           <div className={style.formGroup}>

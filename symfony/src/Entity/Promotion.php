@@ -5,6 +5,8 @@ namespace App\Entity;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
 use App\Repository\PromotionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -13,30 +15,39 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: PromotionRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    operations: [
+        new Get(
+            normalizationContext: ["groups" => ["promotion_read"]]
+        ),
+        new GetCollection(
+            normalizationContext: ["groups" => ["promotions_read"]]
+        )
+    ]
+)]
 #[ApiFilter(SearchFilter::class, properties: ['id' => 'exact', 'code' => 'exact'])]
 class Promotion
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['orders_read', 'order_read', 'order_write'])]
+    #[Groups(['orders_read', 'order_read', 'order_write', "promotion_read", "promotions_read"])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['orders_read', 'order_read', 'order_write'])]
+    #[Groups(['orders_read', 'order_read', 'order_write', "promotion_read", "promotions_read"])]
     private ?string $title = null;
 
     #[ORM\Column(length: 30)]
-    #[Groups(['orders_read', 'order_read', 'order_write'])]
+    #[Groups(['orders_read', 'order_read', 'order_write', "promotion_read", "promotions_read"])]
     private ?string $code = null;
 
     #[ORM\Column(type: Types::FLOAT)]
-    #[Groups(['orders_read', 'order_read', 'order_write'])]
+    #[Groups(['orders_read', 'order_read', 'order_write', "promotion_read", "promotions_read"])]
     private ?float $value = null;
 
     #[ORM\Column]
-    #[Groups(['orders_read', 'order_read', 'order_write'])]
+    #[Groups(['orders_read', 'order_read', 'order_write', "promotion_read", "promotions_read"])]
     private ?bool $percentage = null;
 
     #[ORM\OneToMany(mappedBy: 'promotion', targetEntity: Order::class)]
