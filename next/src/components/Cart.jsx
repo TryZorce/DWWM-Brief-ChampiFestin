@@ -22,10 +22,11 @@ function Cart() {
     }
   }, []);
 
-  const [codes, setCodes] = useState([]);
+const Cart = ({products}) => {
+  const [cartProducts, setCartProducts] = useState(products);
   const [codeData, setCodeData] = useState({});
-  const [promo, setPromo] = useState("");
   const [error, setError] = useState("");
+
 
   useEffect(() => {
     makeRequest({
@@ -37,12 +38,21 @@ function Cart() {
     });
   }, []);
 
-  const getPromotion = (value) => {
+  const [success, setSuccess] = useState("");
+  
+  const errorMessages = ["C'est une hallucination collective!", "Toi par contre t'as trop fumé mon reuf",
+  "T'as les crampté?", "Apagnan", "Baguette is not happy with that", "Quoicoubeh", "Quoicoubaka", "Salade tomates oignons",
+  "Dev full stack double écran", "Kebab Kebab", "Ouais c'est Greg", "Ouais c'est le fils de Greg", "Allô Bassem?", "Whesh Apex", "ça paye Simplon"]
+
+
+  const getPromotion = async (value) => {
+    console.log(`http://localhost:8000/api/promotions?code=${value}`);
     return makeRequest({
       url: `http://localhost:8000/api/promotions?code=${value}`,
       method: "get",
       data: "",
     })
+
       .then((data) => {
         if (data.length > 0) {
           console.log("perfecto => ");
@@ -55,12 +65,36 @@ function Cart() {
       .catch((error) => {
         console.log("Error al obtener la promoción:", error);
       });
+
+    .then((data) => {
+      if (data.length > 0) {
+        setError("");
+        setCodeData(data[0]);
+        if(data[0].percentage){
+          setSuccess(`You have used the code ${data[0].code} successfully! You saved ${data[0].value}%`)
+        }else {
+          setSuccess(`You have used the code ${data[0].code} successfully! You saved ${data[0].value}€`)
+        }
+        
+      } else if(value.toLowerCase() === "hitler" || value.toLowerCase() === "adolf" || value.toLowerCase() === "nazi") {
+        setError("卐 NEIN NEIN NEIN NEIN 卐")
+      }else {
+        
+        setError(errorMessages[Math.floor(Math.random()*errorMessages.length)])
+      }
+    })
+
   };
+
+  useEffect(() => {
+    calculateTotal()
+  }, [codeData])
 
   const applyPromoCode = () => {
     const inputPromo = document.querySelector("#promoCodeInput");
     const { value } = inputPromo;
     const match = value.match(/^[a-zA-Z0-9_.,;:!¡¿?@#"\'+&*-]+$/gm);
+
 
     if (match && match.length > 0) {
       const testCode = match[0];
@@ -86,27 +120,53 @@ function Cart() {
     const updatedCart = cartProducts.filter(
       (product) => product.id !== productId
     );
+
+  
+    if (match !== null && match.length > 0) {
+      const testCode = match[0];
+  
+      getPromotion(testCode)
+
+    }else{
+      setError("Wtf you're trying to do???")
+    }
+  }
+
+  const [customerInfo, setCustomerInfo] = useState({
+    name: "",
+    surname: "",
+    email: "",
+    phone: "",
+  });
+
+
+  const removeProduct = (productId) => {
+    const updatedCart = cartProducts.filter((product) => product.id !== productId);
+
     setCartProducts(updatedCart);
   }
 
-  function calculateTotal() {
+  const calculateTotal = () => {
     let total = 0;
+    
     cartProducts.forEach((product) => {
       total += product.price;
     });
 
-    // if(promo.trim() !== "") {
-    //   getPromotion(promo);
-    //   if(codeData.percentage){
-    //     total -= total * codeData.value / 100
-    //   }else{
-    //     total -= codeData.value
-    //   }
-    // }
+    if(Object.keys(codeData).length > 0){
+
+      if(codeData.percentage){
+        total -= total * codeData.value / 100
+      }else{
+        total -= codeData.value
+      }
+      
+    }
+
     return total;
   }
 
-  function handleInputChange(event) {
+  const handleInputChange = (event) => {
     const { name, value } = event.target;
     setCustomerInfo((prevCustomerInfo) => ({
       ...prevCustomerInfo,
@@ -114,7 +174,7 @@ function Cart() {
     }));
   }
 
-  function confirmOrder() {
+  const confirmOrder = () => {
     const orderMessage = `Thank you for your order, ${customerInfo.name}! Your order is confirmed. You can pick it up in 3 hours.`;
     alert(orderMessage);
     console.log("Customer Information:", customerInfo);
@@ -158,14 +218,30 @@ function Cart() {
                 </li>
               ))}
             </ul>
+            {
+              success && (
+                <p>{success}</p>
+              )
+            }
+            {
+              error && (
+                <p>{error}</p>
+              )
+            }
             <div className={style.total}>
               <span>Total :</span>
               <span>{calculateTotal()} €</span>
             </div>
+
             <input type="text" placeholder="Code promo" id="promoCodeInput" />{" "}
             <button onClick={applyPromoCode}>
               <RiPriceTag2Fill />
             </button>
+
+            
+            <input type="text" placeholder="Code promo" id="promoCodeInput" /> <button onClick={applyPromoCode}><RiPriceTag2Fill /></button>
+
+              
           </>
         )}
 
