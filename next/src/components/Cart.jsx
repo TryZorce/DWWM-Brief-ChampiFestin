@@ -5,9 +5,22 @@ import style from "../components/cart.module.css";
 import { RiPriceTag2Fill } from "react-icons/ri";
 import makeRequest from "@/utils/Fetcher";
 
+const Cart = () => {
+  const [cartProducts, setCartProducts] = useState([]);
+  const [customerInfo, setCustomerInfo] = useState({
+    name: "",
+    surname: "",
+    email: "",
+    phone: "",
+  });
 
-const Cart = ({products}) => {
-  const [cartProducts, setCartProducts] = useState(products);
+  useEffect(() => {
+    // Récupérer les produits du localStorage lors de l'initialisation du composant
+    const storedProducts = localStorage.getItem("cartItems");
+    if (storedProducts) {
+      setCartProducts(JSON.parse(storedProducts));
+    }
+  }, []);
 
   const [codeData, setCodeData] = useState({});
   const [error, setError] = useState("");
@@ -35,7 +48,7 @@ const Cart = ({products}) => {
         }
         
       } else if(value.toLowerCase() === "hitler" || value.toLowerCase() === "adolf" || value.toLowerCase() === "nazi") {
-        setError("卐 NEIN NEIN NEIN NEIN 卐")
+        setError("卐 NEIN NEIN NEIN NEIN 卐");
       }else {
         
         setError(errorMessages[Math.floor(Math.random()*errorMessages.length)])
@@ -62,16 +75,13 @@ const Cart = ({products}) => {
     }
   }
 
-  const [customerInfo, setCustomerInfo] = useState({
-    name: "",
-    surname: "",
-    email: "",
-    phone: "",
-  });
+  
 
 
   const removeProduct = (productId) => {
-    const updatedCart = cartProducts.filter((product) => product.id !== productId);
+    const updatedCart = cartProducts.filter(
+      (product) => product.id !== productId
+    );
     setCartProducts(updatedCart);
   }
 
@@ -102,7 +112,6 @@ const Cart = ({products}) => {
       [name]: value,
     }));
   }
-
 
   const confirmOrder = () => {
 
