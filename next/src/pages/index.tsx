@@ -2,7 +2,6 @@ import style from "../styles/Home.module.css";
 import Navbar from "../components/Navbar";
 import PromoStrip from "../components/PromoStrip";
 import { Carousel } from "primereact/carousel";
-import { Button } from "primereact/button";
 import Image from "next/image";
 import { SetStateAction, useState, useEffect } from "react";
 import ProductDetails from "../components/ProductDetails";
@@ -21,7 +20,7 @@ function Home() {
       url: "http://localhost:8000/api/products",
       data: "",
     }).then((data) => {
-      const availableProducts = data.filter((product) => product.available);
+      const availableProducts = data.filter((product: { available: any; }) => product.available);
       setProducts(availableProducts);
     });
   }, []);
@@ -184,7 +183,7 @@ function Home() {
       <Navbar />
       <PromoStrip />
       <div className={style.slogan}>{/* <h1>Halluciner</h1> */}</div>
-      {selectedProduct && <ProductDetails product={selectedProduct} />}
+      {selectedProduct && <ProductDetails product={selectedProduct} onAddToCart={undefined} />}
       <div>
         <ul className={style.categoryContainer}>
           {categories.map((category) => (
