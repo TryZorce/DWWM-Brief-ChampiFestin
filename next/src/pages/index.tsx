@@ -6,12 +6,20 @@ import Image from "next/image";
 import { SetStateAction, useState, useEffect, useRef } from "react";
 import ProductDetails from "../components/ProductDetails";
 import makeRequest from "@/utils/Fetcher";
+import {Messages} from "primereact/messages";
+import { Skeleton } from 'primereact/skeleton';
 
 function Home() {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [products, setProducts] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const productDetailsRef = useRef(null);
+  const [loading, setLoading] = useState(true);
+  
+
+  const msgs = useRef(null);
+
+    
 
   useEffect(() => {
     makeRequest({
@@ -21,6 +29,7 @@ function Home() {
     }).then((data) => {
       const availableProducts = data.filter((product) => product.available);
       setProducts(availableProducts);
+      setLoading(false);
     });
   }, []);
 
@@ -61,7 +70,11 @@ function Home() {
       cartItems.push({ ...product, quantity: 1 });
     }
     localStorage.setItem("cartItems", JSON.stringify(cartItems));
-    alert("Le produit a été ajouté au panier !");
+    // alert("Le produit a été ajouté au panier !");
+    msgs.current.show(
+          { sticky: false, severity: 'success', summary: 'Nice', detail: 'Added to cart!', closable: true }
+      );
+    
   }
 
   function handleCategoryFilter(category) {
@@ -78,11 +91,66 @@ function Home() {
     }
   }
 
+  function productTemplateSkeleton(product) {
+    return (
+      <div
+        className={`${style.product} m-5 bg-bluegray-900 shadow-1 border-round-xl`}
+        
+      >
+        <div className={`p-2 m-4 bg-bluegray-900 ${style.content}`}>
+          <div
+            className={`content-image bg-cover bg-no-repeat bg-center relative ${style.contentImage}`}
+          >
+            <div className={style.imageContainer}>
+              {/* <Image
+                src={"http://localhost:8000/uploads/images" + product.image}
+                alt=""
+                fill={true}
+                objectPosition="relative"
+                className={`${style.image} border-round-xl shadow-1`}
+              /> */}
+              <Skeleton width="100%" height="auto"></Skeleton>
+            </div>
+          </div>
+          <div
+            className={`rating mt-1 absolute border-round-sm ml-1 p-2 bg-gray-800	flex align-items-center gap-2 w-8rem ${style.rating}`}
+          >
+            <i className="pi pi-star-fill text-yellow-400"></i>
+            <i className="pi pi-star-fill text-yellow-400"></i>
+            <i className="pi pi-star-fill text-yellow-400 "></i>
+            <i className="pi pi-star-fill text-gray-600"></i>
+            <i className="pi pi-star-fill text-gray-600"></i>
+          </div>
+        </div>
+        <div className={`content-info pt-1 ${style.contentInfo}`}>
+          <div
+            className={`flex align-items-center justify-content-between py-2 px-3 ${style.infoHeader}`}
+          >
+            <span className="font-semibold text-gray-400"><Skeleton width="20px" height="5px"></Skeleton></span>
+            <i className="pi pi-verified text-green-400"></i>
+          </div>
+
+          
+          <div
+            className={`flex align-items-center justify-content-center pt-2 px-3 gap-2 ${style.buttonRow}`}
+          >
+            
+              <Skeleton width="10rem" height="4rem" className={`p-3 flex align-items-center justify-content-center w-7 gap-2 bg-purple-600 shadow-1 border-none cursor-pointer hover:bg-purple-400 transition-duration-200 ${style.contactButton}`}></Skeleton>
+              {/* <i className="pi pi-send text-gray-300"></i> */}
+              <Skeleton width="10rem" height="4rem" className={`p-3 flex align-items-center justify-content-center w-7 gap-2 bg-purple-600 shadow-1 border-none cursor-pointer hover:bg-purple-400 transition-duration-200 ${style.contactButton}`}></Skeleton>
+
+            
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   function productTemplate(product) {
     return (
       <div
         className={`${style.product} m-5 bg-bluegray-900 shadow-1 border-round-xl`}
-        onClick={() => handleProductClick(product)}
+        
       >
         <div className={`p-2 m-4 bg-bluegray-900 ${style.content}`}>
           <div
@@ -133,9 +201,18 @@ function Home() {
           >
             <button
               className={`p-3 flex align-items-center justify-content-center w-7 gap-2 bg-purple-600 shadow-1 border-none cursor-pointer hover:bg-purple-400 transition-duration-200 ${style.contactButton}`}
-            >
-              <span className="font-semibold text-gray-300 white-space-nowrap">
+              onClick={() => handleProductClick(product)}>
+              <span className="font-semibold text-white-300 white-space-nowrap">
                 View Details
+              </span>
+              {/* <i className="pi pi-send text-gray-300"></i> */}
+            </button>
+
+            <button
+              className={`p-3 flex align-items-center justify-content-center w-7 gap-2 bg-purple-600 shadow-1 border-round cursor-pointer hover:bg-purple-400 transition-duration-200 ${style.contactButton}`}
+              onClick={() => handleAddToCart(product)}>
+              <span className="font-semibold text-white-300 white-space-nowrap">
+              Add to Cart
               </span>
               <i className="pi pi-send text-gray-300"></i>
             </button>
@@ -168,6 +245,7 @@ function Home() {
     <div>
       <Navbar />
       <PromoStrip />
+      <Messages ref={msgs} />
       <div>
         <ul className={style.categoryContainer}>
           {categories.map((category) => (
@@ -186,6 +264,24 @@ function Home() {
         </ul>
       </div>
       <div className={style.carousel}>
+      {
+        loading && (
+          <Carousel
+          value={[<Skeleton width="10rem" height="4rem"></Skeleton>, <Skeleton width="10rem" height="4rem"></Skeleton>, <Skeleton width="10rem" height="4rem"></Skeleton>]}
+          numVisible={3}
+          numScroll={3}
+          itemTemplate={productTemplateSkeleton}
+          className={style.carouselContainer}
+          responsiveOptions={responsiveOptions}
+          prevIcon={<i className="pi pi-chevron-left"></i>}
+          nextIcon={<i className="pi pi-chevron-right"></i>}
+        />
+          
+        )
+      }
+      {
+        !loading && (
+          
         <Carousel
           value={filteredProducts}
           numVisible={3}
@@ -196,7 +292,12 @@ function Home() {
           prevIcon={<i className="pi pi-chevron-left"></i>}
           nextIcon={<i className="pi pi-chevron-right"></i>}
         />
+        
+      
+        )
+      }
       </div>
+      
       <div ref={productDetailsRef}>
         {selectedProduct && (
 
