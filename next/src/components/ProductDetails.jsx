@@ -34,18 +34,18 @@ function ProductDetails({ product, onAddToCart }) {
           cancel={false}
         />
         <p className={style.productDescription}>{product.description}</p>
-        <div className={style.productPrice}>
-          <i className="pi pi-tag"></i>
-          <span className={style.priceLabel}>Price:</span>
-          <span className={style.priceValue}>{product.price} €</span>
-        </div>
         <div className={style.productCategories}>
-          <span className={style.categoryLabel}>Category:</span>
+          <span className={style.categoryLabel}></span>
           {product.category.map((category) => (
             <span key={category.id} className={style.category}>
               {category.name} 
             </span>
           ))}
+        </div>
+        <div className={style.productPrice}>
+          <i className="pi pi-tag"></i>
+          <span className={style.priceLabel}>Price:</span>
+          <span className={style.priceValue}>{product.price} €</span>
         </div>
         <Button
           label="Add to Cart"

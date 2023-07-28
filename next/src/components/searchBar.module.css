@@ -2,7 +2,7 @@
 .searchBar {
   display: flex;
   align-items: center;
-  width: 500px;
+  width: 30vw;
   background-color: #ffffff00;
   background-image: url(../../public/media/Leonardo_Diffusion_Hyper_realistic_of_hallucinogenic_mushrooms_0.jpg);
   background-size: 100%;
