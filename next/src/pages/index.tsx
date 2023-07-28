@@ -149,7 +149,7 @@ function Home() {
   function productTemplate(product) {
     return (
       <div
-        className={`${style.product} m-5 bg-bluegray-900 shadow-1 border-round-xl`}
+        className={`${style.product} m-5 bg-bluegray-900 shadow-1 border-round-xl hover:shadow-8`}
         
       >
         <div className={`p-2 m-4 bg-bluegray-900 ${style.content}`}>
@@ -209,7 +209,7 @@ function Home() {
             </button>
 
             <button
-              className={`p-3 flex align-items-center justify-content-center w-7 gap-2 bg-purple-600 shadow-1 border-round cursor-pointer hover:bg-purple-400 transition-duration-200 ${style.contactButton}`}
+              className={`p-3 flex align-items-center justify-content-center w-7 gap-2 bg-purple-800 shadow-1 border-round cursor-pointer hover:bg-purple-400 transition-duration-200 ${style.contactButton}`}
               onClick={() => handleAddToCart(product)}>
               <span className="font-semibold text-white-300 white-space-nowrap">
               Add to Cart
@@ -217,7 +217,7 @@ function Home() {
               <i className="pi pi-send text-gray-300"></i>
             </button>
 
-            <div className="p-3 flex align-items-center justify-content-center w-7 gap-2 bg-purple-600 shadow-1 border-round">
+            <div className="p-3 flex align-items-center justify-content-center w-7 gap-2 bg-purple-400 shadow-1 border-round">
               <span className="font-bold">{product.price} €</span>
             </div>
           </div>
