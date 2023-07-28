@@ -152,7 +152,6 @@ function Home() {
     <div>
       <Navbar />
       <PromoStrip />
-      {selectedProduct && <ProductDetails product={selectedProduct} onAddToCart={handleAddToCart} />}
       <div>
         <ul className={style.categoryContainer}>
           {categories.map((category) => (
@@ -178,6 +177,7 @@ function Home() {
           nextIcon={<i className="pi pi-chevron-right"></i>}
         />
       </div>
+      {selectedProduct && <ProductDetails product={selectedProduct} onAddToCart={handleAddToCart} />}
     </div>
   );
 }
