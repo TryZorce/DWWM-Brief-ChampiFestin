@@ -23,6 +23,10 @@ cd symfony
 composer install
 composer require easycorp/easyadmin-bundle
 ```
+Execute the fixtures to populate the database:
+```
+php bin/console doctrine:fixtures:load
+```
 
 And for Next:
 ```
