@@ -3,7 +3,7 @@ import Navbar from "../components/Navbar";
 import PromoStrip from "../components/PromoStrip";
 import { Carousel } from "primereact/carousel";
 import Image from "next/image";
-import { SetStateAction, useState, useEffect } from "react";
+import { SetStateAction, useState, useEffect, useRef } from "react";
 import ProductDetails from "../components/ProductDetails";
 import makeRequest from "@/utils/Fetcher";
 
@@ -11,6 +11,7 @@ function Home() {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [products, setProducts] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const productDetailsRef = useRef(null);
 
   useEffect(() => {
     makeRequest({
@@ -18,7 +19,7 @@ function Home() {
       url: "http://localhost:8000/api/products",
       data: "",
     }).then((data) => {
-      const availableProducts = data.filter((product: { available: any }) => product.available);
+      const availableProducts = data.filter((product) => product.available);
       setProducts(availableProducts);
     });
   }, []);
@@ -41,38 +42,29 @@ function Home() {
     },
   ];
 
-  function handleProductClick(product: any) {
+  function handleProductClick(product) {
     setSelectedProduct(product);
+    scrollToProductDetails();
   }
 
-  function handleAddToCart(product: any) {
-    // Vérifier si le panier existe dans le localStorage
+  function handleAddToCart(product) {
     let cartItems = localStorage.getItem("cartItems");
     if (!cartItems) {
-      cartItems = []; // Si le panier n'existe pas encore, initialisez-le avec un tableau vide
+      cartItems = [];
     } else {
-      cartItems = JSON.parse(cartItems); // Si le panier existe, analysez-le en tant qu'objet JS
+      cartItems = JSON.parse(cartItems);
     }
-  
-    // Vérifier si le produit existe déjà dans le panier
     const existingProduct = cartItems.find((item) => item.id === product.id);
-  
     if (existingProduct) {
-      // Si le produit existe déjà, augmenter sa quantité dans le panier
       existingProduct.quantity += 1;
     } else {
-      // Sinon, ajouter le produit au panier avec une quantité initiale de 1
       cartItems.push({ ...product, quantity: 1 });
     }
-  
-    // Mettez à jour le panier dans le localStorage
     localStorage.setItem("cartItems", JSON.stringify(cartItems));
-  
-    // Affichez un message de succès (vous pouvez personnaliser le message selon vos besoins)
     alert("Le produit a été ajouté au panier !");
   }
-  
-  function handleCategoryFilter(category: any) {
+
+  function handleCategoryFilter(category) {
     if (category.name === "Tous les produits") {
       setSelectedCategory(null);
     } else {
@@ -80,11 +72,22 @@ function Home() {
     }
   }
 
-  function productTemplate(product: any) {
+  function scrollToProductDetails() {
+    if (productDetailsRef.current) {
+      productDetailsRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }
+
+  function productTemplate(product) {
     return (
-      <div className={`${style.product} m-5 bg-bluegray-900 shadow-1 border-round-xl`} onClick={() => handleProductClick(product)}>
+      <div
+        className={`${style.product} m-5 bg-bluegray-900 shadow-1 border-round-xl`}
+        onClick={() => handleProductClick(product)}
+      >
         <div className={`p-2 m-4 bg-bluegray-900 ${style.content}`}>
-          <div className={`content-image bg-cover bg-no-repeat bg-center relative ${style.contentImage}`}>
+          <div
+            className={`content-image bg-cover bg-no-repeat bg-center relative ${style.contentImage}`}
+          >
             <div className={style.imageContainer}>
               <Image
                 src={"http://localhost:8000/uploads/images" + product.image}
@@ -95,7 +98,9 @@ function Home() {
               />
             </div>
           </div>
-          <div className={`rating mt-1 absolute border-round-sm ml-1 p-2 bg-gray-800	flex align-items-center gap-2 w-8rem ${style.rating}`}>
+          <div
+            className={`rating mt-1 absolute border-round-sm ml-1 p-2 bg-gray-800	flex align-items-center gap-2 w-8rem ${style.rating}`}
+          >
             <i className="pi pi-star-fill text-yellow-400"></i>
             <i className="pi pi-star-fill text-yellow-400"></i>
             <i className="pi pi-star-fill text-yellow-400 "></i>
@@ -104,15 +109,22 @@ function Home() {
           </div>
         </div>
         <div className={`content-info pt-1 ${style.contentInfo}`}>
-          <div className={`flex align-items-center justify-content-between py-2 px-3 ${style.infoHeader}`}>
+          <div
+            className={`flex align-items-center justify-content-between py-2 px-3 ${style.infoHeader}`}
+          >
             <span className="font-semibold text-gray-400">{product.name}</span>
             <i className="pi pi-verified text-green-400"></i>
           </div>
-          <div className={`flex align-items-center justify-content-between py-2 px-3 gap-2 ${style.infoRow}`}>
-            {product.category.map((cat: any) => (
+
+          <div
+            className={`flex align-items-center justify-content-between py-2 px-3 gap-2 ${style.infoRow}`}
+          >
+            {product.category.map((cat) => (
               <div key={cat.id} className="flex align-items-center gap-2">
                 <i className="pi pi-star-fill "></i>
-                <span className="font-small text-gray-600 white-space-nowrap">{cat.name}</span>
+                <span className="font-small text-gray-600 white-space-nowrap">
+                  {cat.name}
+                </span>
               </div>
             ))}
           </div>
@@ -127,6 +139,10 @@ function Home() {
               </span>
               <i className="pi pi-send text-gray-300"></i>
             </button>
+
+            <div className="p-3 flex align-items-center justify-content-center w-7 gap-2 bg-purple-600 shadow-1 border-round">
+              <span className="font-bold">{product.price} €</span>
+            </div>
           </div>
         </div>
       </div>
@@ -135,8 +151,8 @@ function Home() {
 
   const filteredProducts = selectedCategory
     ? products.filter((product) =>
-      product.category.some((cat: { name: any }) => cat.name === selectedCategory.name)
-    )
+        product.category.some((cat) => cat.name === selectedCategory.name)
+      )
     : products;
 
   const categories = [
@@ -158,7 +174,11 @@ function Home() {
             <li
               key={category.id}
               onClick={() => handleCategoryFilter(category)}
-              className={`${style.categoryItem} ${selectedCategory && selectedCategory.id === category.id ? "active" : ""}`}
+              className={`${style.categoryItem} ${
+                selectedCategory && selectedCategory.id === category.id
+                  ? "active"
+                  : ""
+              }`}
             >
               {category.name}
             </li>
@@ -177,9 +197,14 @@ function Home() {
           nextIcon={<i className="pi pi-chevron-right"></i>}
         />
       </div>
-      {selectedProduct && <ProductDetails product={selectedProduct} onAddToCart={handleAddToCart} />}
-    </div>
-  );
-}
+      <div ref={productDetailsRef}>
+        {selectedProduct && (
 
-export default Home;
+            <ProductDetails product={selectedProduct} onAddToCart={handleAddToCart} />
+          )}
+        </div>
+      </div>
+    );
+  }
+  
+  export default Home;
