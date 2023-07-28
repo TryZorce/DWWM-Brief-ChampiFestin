@@ -16,10 +16,31 @@ class ProductFixtures extends Fixture
         $this->kernel = $kernel;
     }
 
-    public function load(ObjectManager $manager)
+
+
+
+
+public function load(ObjectManager $manager)
     {
         $faker = \Faker\Factory::create();
-
+    
+        $mushroomNames = [
+            'Chanterelle',
+            'Portobello',
+            'Morel',
+            'Shiitake',
+            'Oyster',
+            'Enoki',
+            'Porcini',
+            'Lion Mane',
+            'Maitake',
+            'Crimini',
+            'Reishi',
+            'Button Mushroom',
+            'Kevin Wolff',
+            'Le Tchamp'
+        ];
+    
         $images = [
             '/Mushroom1.jpg',
             '/Mushroom2.jpg',
@@ -36,10 +57,10 @@ class ProductFixtures extends Fixture
             '/Mushroom13.jpg',
 
         ];
-
+    
         $categories = $manager->getRepository('App\Entity\Category')->findAll();
         $productsByCategory = [];
-
+    
         foreach ($categories as $category) {
             $availableProductsCount = 0;
             foreach ($category->getProducts() as $product) {
@@ -47,10 +68,10 @@ class ProductFixtures extends Fixture
                     $availableProductsCount++;
                 }
             }
-
+    
             for ($i = $availableProductsCount; $i < 3; $i++) {
                 $product = new Product();
-                $product->setName($faker->word);
+                $product->setName($faker->randomElement($mushroomNames)); 
                 $product->setPrice($faker->numberBetween(50, 500));
                 $product->setStock($faker->numberBetween(0, 100));
                 $product->setAvailable(true);
@@ -58,9 +79,9 @@ class ProductFixtures extends Fixture
                 $product->setImage($randomImage);
                 $product->addCategory($category);
                 $manager->persist($product);
-
+    
                 $availableProductsCount++;
-
+    
                 $categoryId = $category->getId();
                 if (!isset($productsByCategory[$categoryId])) {
                     $productsByCategory[$categoryId] = [];
@@ -68,7 +89,7 @@ class ProductFixtures extends Fixture
                 $productsByCategory[$categoryId][] = $product;
             }
         }
-
+    
         $manager->flush();
     }
 
