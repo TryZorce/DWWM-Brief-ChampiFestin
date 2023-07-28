@@ -116,7 +116,9 @@ const Cart = () => {
         total -= codeData.value;
       }
     }
-
+if (total < 0 ) {
+  return 0
+}
     return total;
   };
 
