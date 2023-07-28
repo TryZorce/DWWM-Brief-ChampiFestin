@@ -26,6 +26,15 @@ class ProductFixtures extends Fixture
             '/Mushroom3.jpg',
             '/Mushroom4.jpg',
             '/Mushroom5.jpg',
+            '/Mushroom6.jpg',
+            '/Mushroom7.jpg',
+            '/Mushroom8.jpg',
+            '/Mushroom9.jpg',
+            '/Mushroom10.jpg',
+            '/Mushroom11.jpg',
+            '/Mushroom12.jpg',
+            '/Mushroom13.jpg',
+
         ];
 
         $categories = $manager->getRepository('App\Entity\Category')->findAll();
